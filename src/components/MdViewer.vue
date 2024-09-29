@@ -1,16 +1,11 @@
 <template>
-  <Editor
-    :mode="mode"
-    :plugins="plugins"
-    :value="value"
-    @change="handleChange"
-  />
+  <Viewer :plugins="plugins" :value="value" />
 </template>
 <script lang="ts" setup>
 import gfm from "@bytemd/plugin-gfm";
 import highlight from "@bytemd/plugin-highlight-ssr";
 import math from "@bytemd/plugin-math-ssr";
-import { Editor } from "@bytemd/vue-next";
+import { Viewer } from "@bytemd/vue-next";
 import { defineProps, withDefaults } from "vue";
 
 /**
@@ -18,8 +13,6 @@ import { defineProps, withDefaults } from "vue";
  */
 interface Props {
   value: string;
-  mode?: string;
-  handleChange: (v: string) => void;
 }
 
 /**
@@ -27,10 +20,6 @@ interface Props {
  */
 const props = withDefaults(defineProps<Props>(), {
   value: () => "",
-  mode: () => "split",
-  handleChange: (v: string) => {
-    console.log(v);
-  },
 });
 
 const plugins = [

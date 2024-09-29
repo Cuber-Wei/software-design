@@ -7,9 +7,10 @@
       :pagination="{
         showTotal: true,
         pageSize: searchParams.pageSize,
-        current: searchParams.pageNum,
+        current: searchParams.current,
         total,
       }"
+      @page-change="onPageChange"
     >
       <template #optional="{ record }">
         <a-space>
@@ -18,10 +19,19 @@
         </a-space>
       </template>
     </a-table>
+    <a-space
+      >每页题目数量
+      <a-input-number
+        v-model="searchParams.pageSize"
+        min="1"
+        placeholder="每页题目数量"
+        size="large"
+      />
+    </a-space>
   </div>
 </template>
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watchEffect } from "vue";
 import { Question, QuestionControllerService } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
@@ -32,7 +42,7 @@ const dataList = ref([]);
 const total = ref(0);
 const searchParams = ref({
   pageSize: 10,
-  pageNum: 1,
+  current: 1,
 });
 
 const loadData = async () => {
@@ -44,11 +54,15 @@ const loadData = async () => {
     total.value = res.data.total;
     console.log(res.data);
   } else {
-    message.error("加载数据失败！ ", res.message);
+    message.error("加载数据失败！ " + res.message);
   }
 };
 
 onMounted(() => {
+  loadData();
+});
+// 监听分页变量，改变时更新页面
+watchEffect(() => {
   loadData();
 });
 
@@ -82,14 +96,6 @@ const columns = [
     dataIndex: "acceptedNum",
   },
   {
-    title: "点赞数",
-    dataIndex: "thumbNum",
-  },
-  {
-    title: "收藏数",
-    dataIndex: "favourNum",
-  },
-  {
     title: "创建时间",
     dataIndex: "createTime",
   },
@@ -112,10 +118,6 @@ const columns = [
   {
     title: "创建用户",
     dataIndex: "userVO",
-  },
-  {
-    title: "是否下线",
-    dataIndex: "isDelete",
   },
   {
     title: "操作",
@@ -143,11 +145,17 @@ const doDelete = async (question: Question) => {
     message.error("删除题目失败！ " + res.message);
   }
 };
+const onPageChange = (page: number) => {
+  searchParams.value = {
+    ...searchParams.value,
+    current: page,
+  };
+};
 </script>
 <style scoped>
 #ManageQuestionView {
-  margin-left: 10%;
-  width: 80%;
+  margin: 0 auto;
+  width: 90%;
   display: flex;
   flex-direction: column;
 }

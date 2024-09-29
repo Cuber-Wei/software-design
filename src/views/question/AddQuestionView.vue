@@ -147,7 +147,7 @@ const question = ref({
 } as QuestionAddRequest);
 
 const route = useRoute();
-const isUpdatePage = route.path.includes("update");
+const isUpdatePage = ref(route.path.includes("update"));
 
 const loadData = async () => {
   const id = route.query.id;
@@ -185,7 +185,7 @@ const loadData = async () => {
       question.value.judgeCase = JSON.parse(question.value.judgeCase);
     }
   } else {
-    message.error("加载失败！ ", res.message);
+    message.error("加载失败！ " + res.message);
   }
 };
 onMounted(() => {
@@ -222,8 +222,10 @@ const handleSubmit = () => {
 
 const doSubmit = async () => {
   // 区分更新还是创建
-  if (isUpdatePage) {
-    const res = await QuestionControllerService.updateQuestion(question.value);
+  if (isUpdatePage.value) {
+    const res = await QuestionControllerService.updateQuestionUsingPost(
+      question.value
+    );
     if (res.code === 0) {
       message.success("更新题目成功！");
     } else {
