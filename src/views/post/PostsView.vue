@@ -1,10 +1,10 @@
 <template>
-  <div id="QuestionsView">
-    <h1>题目列表</h1>
+  <div id="PostsView">
+    <h1>帖子列表</h1>
     <a-form :model="searchParams" layout="inline">
       <a-col :span="10">
-        <a-form-item field="title" label="题目名称" label-col-flex="70px">
-          <a-input v-model="searchParams.title" placeholder="请输入题目名称" />
+        <a-form-item field="title" label="帖子名称" label-col-flex="70px">
+          <a-input v-model="searchParams.title" placeholder="请输入帖子名称" />
         </a-form-item>
       </a-col>
       <a-col :span="10">
@@ -25,11 +25,11 @@
     </a-form>
     <a-divider :size="0"></a-divider>
     <a-space
-      >每页题目数量
+      >每页帖子数量
       <a-input-number
         v-model="searchParams.pageSize"
         min="1"
-        placeholder="每页题目数量"
+        placeholder="每页帖子数量"
         size="small"
         style="width: 200px"
       />
@@ -53,13 +53,9 @@
           </a-tag>
         </a-space>
       </template>
-      <template #acceptedRate="{ record }">
+      <template #commentNum="{ record }">
         <a-space>
-          {{
-            `${
-              record.submitNum ? record.acceptedNum / record.submitNum : "0"
-            }%  (${record.acceptedNum} / ${record.submitNum})`
-          }}
+          {{ record.commentNum ? record.commentNum : "0" }}
         </a-space>
       </template>
       <template #createTime="{ record }">
@@ -67,7 +63,7 @@
       </template>
       <template #optional="{ record }">
         <a-space>
-          <a-button type="primary" @click="toQuestion(record)">去做题</a-button>
+          <a-button type="primary" @click="toPost(record)">查看详情</a-button>
         </a-space>
       </template>
     </a-table>
@@ -75,7 +71,7 @@
 </template>
 <script lang="ts" setup>
 import { onMounted, ref, watchEffect } from "vue";
-import { Question, QuestionControllerService } from "../../../generated";
+import { Post, PostControllerService } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
 import moment from "moment";
@@ -94,12 +90,13 @@ const loadData = async () => {
   if (!searchParams.value.pageSize || searchParams.value.pageSize <= 0) {
     searchParams.value.pageSize = 5;
   }
-  const res = await QuestionControllerService.listQuestionVoByPageUsingPost(
+  const res = await PostControllerService.listPostVoByPageUsingPost(
     searchParams.value
   );
   if (res.code === 0) {
     dataList.value = res.data.records;
     total.value = res.data.total;
+    console.log(dataList);
   } else {
     message.error("加载数据失败！ " + res.message);
   }
@@ -127,8 +124,8 @@ const columns = [
     slotName: "tags",
   },
   {
-    title: "通过率",
-    slotName: "acceptedRate",
+    title: "评论数",
+    slotName: "commentNum",
   },
   {
     title: "创建时间",
@@ -141,9 +138,9 @@ const columns = [
 ];
 // 跳转到做题页面
 const router = useRouter();
-const toQuestion = (question: Question) => {
+const toPost = (post: Post) => {
   router.push({
-    path: `/view/question/${question.id}`,
+    path: `/view/post/${post.id}`,
   });
 };
 
@@ -162,7 +159,7 @@ const doSubmit = () => {
 };
 </script>
 <style scoped>
-#QuestionsView {
+#PostsView {
   margin-left: 10%;
   width: 80%;
   display: flex;

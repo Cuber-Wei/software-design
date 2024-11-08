@@ -1,6 +1,6 @@
 <template>
   <div id="ManageQuestionView">
-    <h1>管理题目</h1>
+    <h1>管理题解</h1>
     <a-table
       :columns="columns"
       :data="dataList"
@@ -36,6 +36,8 @@ import { Question, QuestionControllerService } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
 
+const show = ref(true);
+
 const dataList = ref([]);
 const total = ref(0);
 const searchParams = ref({
@@ -50,6 +52,7 @@ const loadData = async () => {
   if (res.code === 0) {
     dataList.value = res.data.records;
     total.value = res.data.total;
+    console.log(res.data);
   } else {
     message.error("加载数据失败！ " + res.message);
   }

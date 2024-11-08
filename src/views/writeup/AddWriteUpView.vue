@@ -1,7 +1,7 @@
 <template>
   <div id="AddQuestionView">
-    <h1 v-if="!isUpdatePage">发布题目</h1>
-    <h1 v-else>更新题目</h1>
+    <h1 v-if="!isUpdatePage">编写题解</h1>
+    <h1 v-else>更新题解</h1>
     <a-form :model="question" label-align="left" @submit="handleSubmit">
       <a-form-item field="title" label="标题">
         <a-input
@@ -10,7 +10,7 @@
           placeholder="请输入标题"
         />
       </a-form-item>
-      <a-form-item field="content" label="题目描述">
+      <a-form-item field="content" label="题解描述">
         <MdEditor
           :handle-change="onContentChange"
           :value="question.content"
@@ -32,7 +32,7 @@
           placeholder="请输入标签"
         />
       </a-form-item>
-      <a-form-item :content-flex="false" :merge-props="false" label="题目限制">
+      <a-form-item :content-flex="false" :merge-props="false" label="题解限制">
         <a-space class="formItem" direction="vertical" fill>
           <a-form-item field="judgeConfig.memoryLimit" label="内存限制">
             <a-input-number
@@ -130,7 +130,7 @@ import { useRoute } from "vue-router";
 
 const question = ref({
   answer: "# 参考答案\n",
-  content: "# 题目描述\n",
+  content: "# 题解描述\n",
   judgeCase: [
     {
       input: "",
@@ -227,18 +227,18 @@ const doSubmit = async () => {
       question.value
     );
     if (res.code === 0) {
-      message.success("更新题目成功！");
+      message.success("更新题解成功！");
     } else {
-      message.error("更新题目失败 " + res.message);
+      message.error("更新题解失败 " + res.message);
     }
   } else {
     const res = await QuestionControllerService.addQuestionUsingPost(
       question.value
     );
     if (res.code === 0) {
-      message.success("创建题目成功！");
+      message.success("创建题解成功！");
     } else {
-      message.error("创建题目失败 " + res.message);
+      message.error("创建题解失败 " + res.message);
     }
   }
 };

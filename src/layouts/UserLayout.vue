@@ -3,7 +3,7 @@
     <a-layout style="min-height: 100vh">
       <a-layout-header class="header">
         <a-space>
-          <img class="logo" src="@/assets/oj-logo.gif" />
+          <img alt="logo" class="logo" src="@/assets/oj-logo.jpg" />
           <div>My OJ</div>
         </a-space>
       </a-layout-header>

@@ -1,6 +1,6 @@
 <template>
-  <div id="ManageQuestionView">
-    <h1>管理题目</h1>
+  <div id="ManagePostView">
+    <h1>管理帖子</h1>
     <a-table
       :columns="columns"
       :data="dataList"
@@ -20,11 +20,11 @@
       </template>
     </a-table>
     <a-space
-      >每页题目数量
+      >每页帖子数量
       <a-input-number
         v-model="searchParams.pageSize"
         min="1"
-        placeholder="每页题目数量"
+        placeholder="每页帖子数量"
         size="large"
       />
     </a-space>
@@ -32,9 +32,11 @@
 </template>
 <script lang="ts" setup>
 import { onMounted, ref, watchEffect } from "vue";
-import { Question, QuestionControllerService } from "../../../generated";
+import { Post, PostControllerService } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
+
+const show = ref(true);
 
 const dataList = ref([]);
 const total = ref(0);
@@ -44,7 +46,7 @@ const searchParams = ref({
 });
 
 const loadData = async () => {
-  const res = await QuestionControllerService.listQuestionByPageUsingPost(
+  const res = await PostControllerService.listPostByPageUsingPost(
     searchParams.value
   );
   if (res.code === 0) {
@@ -73,24 +75,16 @@ const columns = [
     dataIndex: "title",
   },
   {
-    title: "题目描述",
+    title: "帖子内容",
     dataIndex: "content",
-  },
-  {
-    title: "参考答案",
-    dataIndex: "answer",
   },
   {
     title: "标签",
     dataIndex: "tags",
   },
   {
-    title: "提交数",
-    dataIndex: "submitNum",
-  },
-  {
-    title: "通过数",
-    dataIndex: "acceptedNum",
+    title: "评论数",
+    dataIndex: "commentNum",
   },
   {
     title: "创建时间",
@@ -99,14 +93,6 @@ const columns = [
   {
     title: "更新时间",
     dataIndex: "updateTime",
-  },
-  {
-    title: "题目配置",
-    dataIndex: "judgeConfig",
-  },
-  {
-    title: "测试用例",
-    dataIndex: "judgeCase",
   },
   {
     title: "创建用户id",
@@ -122,24 +108,24 @@ const columns = [
   },
 ];
 const router = useRouter();
-const doUpdate = (question: Question) => {
+const doUpdate = (post: Post) => {
   router.push({
-    path: "/update/question",
+    path: "/update/post",
     query: {
-      id: question.id,
+      id: post.id,
     },
   });
 };
-const doDelete = async (question: Question) => {
-  const res = await QuestionControllerService.deleteQuestionUsingPost({
-    id: question.id,
+const doDelete = async (post: Post) => {
+  const res = await PostControllerService.deletePostUsingPost({
+    id: post.id,
   });
   if (res.code === 0) {
     // 更新页面
-    message.success("删除题目成功！");
+    message.success("删除帖子成功！");
     await loadData();
   } else {
-    message.error("删除题目失败！ " + res.message);
+    message.error("删除帖子失败！ " + res.message);
   }
 };
 const onPageChange = (page: number) => {
@@ -150,7 +136,7 @@ const onPageChange = (page: number) => {
 };
 </script>
 <style scoped>
-#ManageQuestionView {
+#ManagePostView {
   margin: 0 auto;
   width: 90%;
   display: flex;

@@ -7,9 +7,9 @@
             <div class="docArea">
               <a-card
                 v-if="question"
+                :bordered="false"
                 :title="question.title"
                 style="margin-top: 10px; height: 95%; flex: 1"
-                :bordered="false"
               >
                 <template #extra>
                   <a-space wrap>
@@ -22,8 +22,8 @@
                   </a-space>
                 </template>
                 <a-descriptions
-                  title="判题信息"
                   :column="{ xs: 1, md: 2, lg: 3 }"
+                  title="判题信息"
                 >
                   <a-descriptions-item label="时间限制">
                     <a-tag>{{ question.judgeConfig.timeLimit }} ms</a-tag>
@@ -39,12 +39,27 @@
               </a-card>
             </div>
           </a-tab-pane>
-          <a-tab-pane key="answer" title="题解" disabled> 题目题解</a-tab-pane>
-          <a-tab-pane key="comment" title="评论"> 评论区</a-tab-pane>
+          <a-tab-pane key="answer" title="题解">
+            <h2>题目题解</h2>
+            <MdEditor
+              :handle-change="onContentChange"
+              :value="writeup.content || ' '"
+              class="formItem"
+            />
+            <a-button
+              style="margin-top: 16px"
+              type="primary"
+              @click="doCommentSubmit"
+              >提交
+            </a-button>
+            <a-divider />
+            <WriteUpCard />
+          </a-tab-pane>
+          <a-tab-pane key="submits" title="提交记录">提交记录</a-tab-pane>
         </a-tabs>
       </a-col>
       <a-col :md="12" :xs="24" class="codeArea">
-        <a-row class="operationLine" :column="{ xs: 1, md: 2 }">
+        <a-row :column="{ xs: 1, md: 2 }" class="operationLine">
           <a-col :span="8">
             <a-cascader
               v-model="form.language"
@@ -54,17 +69,17 @@
             />
           </a-col>
           <a-col :span="8" style="margin-left: 20px">
-            <a-button type="primary" style="width: 200px" @click="doSubmit"
+            <a-button style="width: 200px" type="primary" @click="doSubmit"
               >提交代码
             </a-button>
           </a-col>
         </a-row>
         <CodeEditor
           ref="monacoEdit"
-          :value="form.code"
-          :readonly="false"
-          :language="form.language"
           :handle-change="onCodeChange"
+          :language="form.language"
+          :readonly="false"
+          :value="form.code"
           style="height: 95%; flex: 1"
         ></CodeEditor>
       </a-col>
@@ -75,6 +90,7 @@
 import { defineProps, onMounted, ref, withDefaults } from "vue";
 import message from "@arco-design/web-vue/es/message";
 import {
+  PostAddRequest,
   QuestionAddRequest,
   QuestionControllerService,
   QuestionSubmitAddRequest,
@@ -82,8 +98,13 @@ import {
 } from "../../../generated";
 import CodeEditor from "@/components/CodeEditor.vue";
 import MdViewer from "@/components/MdViewer.vue";
+import WriteUpCard from "@/components/WriteUpCard.vue";
+import MdEditor from "@/components/MdEditor.vue";
 
 const question = ref<QuestionAddRequest>();
+const writeup = ref({
+  content: "# 贡献题解...",
+} as PostAddRequest);
 const languageOptions = [
   {
     value: "java",
@@ -117,6 +138,7 @@ const loadData = async () => {
   );
   if (res.code === 0) {
     question.value = res.data;
+    // writeup.value.questionId = question.value.id;
   } else {
     message.error("加载失败！ " + res.message);
   }

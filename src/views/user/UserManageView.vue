@@ -1,6 +1,6 @@
 <template>
-  <div id="ManageQuestionView">
-    <h1>管理题目</h1>
+  <div id="ManageUserView">
+    <h1>管理用户</h1>
     <a-table
       :columns="columns"
       :data="dataList"
@@ -16,15 +16,18 @@
         <a-space>
           <a-button type="primary" @click="doUpdate(record)">修改</a-button>
           <a-button status="danger" @click="doDelete(record)">删除</a-button>
+          <a-button status="danger" @click="resetPassword(record)"
+            >重置密码
+          </a-button>
         </a-space>
       </template>
     </a-table>
     <a-space
-      >每页题目数量
+      >每页用户数量
       <a-input-number
         v-model="searchParams.pageSize"
         min="1"
-        placeholder="每页题目数量"
+        placeholder="每页用户数量"
         size="large"
       />
     </a-space>
@@ -32,7 +35,7 @@
 </template>
 <script lang="ts" setup>
 import { onMounted, ref, watchEffect } from "vue";
-import { Question, QuestionControllerService } from "../../../generated";
+import { User, UserControllerService } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
 
@@ -44,7 +47,7 @@ const searchParams = ref({
 });
 
 const loadData = async () => {
-  const res = await QuestionControllerService.listQuestionByPageUsingPost(
+  const res = await UserControllerService.listUserByPageUsingPost(
     searchParams.value
   );
   if (res.code === 0) {
@@ -69,52 +72,36 @@ const columns = [
     dataIndex: "id",
   },
   {
-    title: "标题",
-    dataIndex: "title",
+    title: "用户名",
+    dataIndex: "userAccount",
   },
   {
-    title: "题目描述",
-    dataIndex: "content",
+    title: "昵称",
+    dataIndex: "userName",
   },
   {
-    title: "参考答案",
-    dataIndex: "answer",
+    title: "头像",
+    dataIndex: "userAvatar",
   },
   {
-    title: "标签",
-    dataIndex: "tags",
+    title: "简介",
+    dataIndex: "userProfile",
   },
   {
-    title: "提交数",
-    dataIndex: "submitNum",
+    title: "手机号",
+    dataIndex: "userPhone",
   },
   {
-    title: "通过数",
-    dataIndex: "acceptedNum",
+    title: "邮箱",
+    dataIndex: "userMail",
   },
   {
-    title: "创建时间",
+    title: "微信开放平台Id",
+    dataIndex: "wxOpenId",
+  },
+  {
+    title: "注册时间",
     dataIndex: "createTime",
-  },
-  {
-    title: "更新时间",
-    dataIndex: "updateTime",
-  },
-  {
-    title: "题目配置",
-    dataIndex: "judgeConfig",
-  },
-  {
-    title: "测试用例",
-    dataIndex: "judgeCase",
-  },
-  {
-    title: "创建用户id",
-    dataIndex: "userId",
-  },
-  {
-    title: "创建用户",
-    dataIndex: "userVO",
   },
   {
     title: "操作",
@@ -122,24 +109,21 @@ const columns = [
   },
 ];
 const router = useRouter();
-const doUpdate = (question: Question) => {
+const doUpdate = (user: User) => {
   router.push({
-    path: "/update/question",
-    query: {
-      id: question.id,
-    },
+    path: `/user/edit/${user?.id}`,
   });
 };
-const doDelete = async (question: Question) => {
-  const res = await QuestionControllerService.deleteQuestionUsingPost({
-    id: question.id,
+const doDelete = async (user: User) => {
+  const res = await UserControllerService.deleteUserUsingPost({
+    id: user.id,
   });
   if (res.code === 0) {
     // 更新页面
-    message.success("删除题目成功！");
+    message.success("删除用户成功！");
     await loadData();
   } else {
-    message.error("删除题目失败！ " + res.message);
+    message.error("删除用户失败！ " + res.message);
   }
 };
 const onPageChange = (page: number) => {
@@ -150,7 +134,7 @@ const onPageChange = (page: number) => {
 };
 </script>
 <style scoped>
-#ManageQuestionView {
+#ManageUserView {
   margin: 0 auto;
   width: 90%;
   display: flex;

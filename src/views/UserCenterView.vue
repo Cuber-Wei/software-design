@@ -8,7 +8,7 @@
             <a-col :span="3" style="min-height: 100px">
               <div style="place-items: center; display: grid">
                 <a-avatar :size="100">
-                  <img alt="avatar" src="../assets/test-avatar.jpg" />
+                  <img :src="showData.userAvatar" alt="avatar" />
                 </a-avatar>
               </div>
             </a-col>
@@ -32,8 +32,12 @@
               <div style="margin: 16px 0"></div>
               <!--其他信息 权限角色 id-->
               <a-row>
-                <div class="extraInfo">{{ showData.userRole }}</div>
-                <div class="extraInfo">uid:{{ showData.userId }}</div>
+                <a-tag bordered class="extraInfo" color="orangered"
+                  >role : {{ showData.userRole }}
+                </a-tag>
+                <a-tag bordered class="extraInfo" color="gray"
+                  >uid : {{ showData.userId }}
+                </a-tag>
               </a-row>
             </a-col>
           </a-row>
@@ -42,8 +46,14 @@
           <!--用户统计信息-->
           <a-row class="userStatistics">
             <a-col :span="12">
-              <a-button>发布帖子</a-button>
-              <a-button>修改资料</a-button>
+              <a-button class="userButton" @click="toEditDetail(showData)"
+                >修改资料
+              </a-button>
+              <a-badge :count="9">
+                <a-button class="userButton" @click="toReview"
+                  >审核事项
+                </a-button>
+              </a-badge>
             </a-col>
           </a-row>
         </a-card>
@@ -63,8 +73,14 @@ import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { UserControllerService } from "../../generated";
 import { ref } from "vue";
+import user from "@/store/user";
 
 export default {
+  computed: {
+    user() {
+      return user;
+    },
+  },
   setup() {
     const router = useRouter();
     const store = useStore();
@@ -75,7 +91,7 @@ export default {
         if (res.code === 0) {
           showData.value = {
             userName: res.data?.userName,
-            userAvatar: res.data?.userAvatar ?? "oj-logo.gif",
+            userAvatar: res.data?.userAvatar ?? "oj-logo.png",
             userProfile: res.data?.userProfile ?? "这是默认签名",
             userRole: res.data?.userRole,
             userId: res.data?.id,
@@ -83,7 +99,7 @@ export default {
         } else {
           showData.value = {
             userName: "未登录",
-            userAvatar: "oj-logo.gif",
+            userAvatar: "oj-logo.png",
             userProfile: "这是默认签名",
             userRole: "未登录",
             userId: -1,
@@ -93,10 +109,23 @@ export default {
       .catch((err) => {
         console.log(err);
       });
+    const toEditDetail = (data: any) => {
+      router.push({
+        path: `/user/edit/${data?.userId}`,
+      });
+    };
+    const toReview = () => {
+      router.push({
+        path: "/review",
+        replace: true,
+      });
+    };
     return {
       router,
       store,
       showData,
+      toEditDetail,
+      toReview,
     };
   },
 };
@@ -137,14 +166,16 @@ export default {
 .extraInfo {
   margin-right: 6px;
   border-radius: 4px;
-  background-color: #dddddddd;
-  padding: 4px;
 }
 
 .userStatistics {
   height: 30%;
   display: flex;
   align-items: center;
+}
+
+.userButton {
+  margin: 0 0.5rem;
 }
 
 #userCenter .content {
@@ -154,6 +185,7 @@ export default {
 
 .post-show {
   padding: 16px;
+  min-height: 75vh;
   flex: 1;
 }
 </style>
