@@ -5,6 +5,7 @@ import com.l0v3ch4n.oj.judge.strategy.DefaultJudgeStrategy;
 import com.l0v3ch4n.oj.judge.strategy.JavaLanguageJudgeStrategy;
 import com.l0v3ch4n.oj.judge.strategy.JudgeContext;
 import com.l0v3ch4n.oj.judge.strategy.JudgeStrategy;
+import com.l0v3ch4n.oj.model.entity.QuestionSubmit;
 import org.springframework.stereotype.Service;
 /**
  * 判题管理（简化调用）

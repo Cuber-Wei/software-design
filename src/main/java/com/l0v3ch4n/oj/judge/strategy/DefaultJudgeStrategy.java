@@ -4,6 +4,7 @@ import cn.hutool.json.JSONUtil;
 import com.l0v3ch4n.oj.judge.sandbox.model.JudgeInfo;
 import com.l0v3ch4n.oj.model.dto.question.JudgeCase;
 import com.l0v3ch4n.oj.model.dto.question.JudgeConfig;
+import com.l0v3ch4n.oj.model.entity.Question;
 import com.l0v3ch4n.oj.model.enums.JudgeInfoMessageEnum;
 
 import java.util.List;

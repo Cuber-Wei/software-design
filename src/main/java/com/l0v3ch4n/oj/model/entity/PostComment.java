@@ -18,7 +18,7 @@ public class PostComment implements Serializable {
     /**
      * id
      */
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long postCommentId;
 
     /**
