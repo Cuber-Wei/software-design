@@ -1,7 +1,8 @@
 package com.l0v3ch4n.oj.service;
 
-import com.l0v3ch4n.oj.model.entity.User;
 import javax.annotation.Resource;
+
+import com.l0v3ch4n.oj.model.entity.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ class PostThumbServiceTest {
 
     @BeforeAll
     static void setUp() {
-        loginUser.setId(1L);
+        loginUser.setUserId(1L);
     }
 
     @Test

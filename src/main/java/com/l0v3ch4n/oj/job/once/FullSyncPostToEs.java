@@ -3,7 +3,6 @@ package com.l0v3ch4n.oj.job.once;
 import cn.hutool.core.collection.CollUtil;
 import com.l0v3ch4n.oj.esdao.PostEsDao;
 import com.l0v3ch4n.oj.model.dto.post.PostEsDTO;
-import com.l0v3ch4n.oj.model.entity.Post;
 import com.l0v3ch4n.oj.service.PostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;

@@ -6,6 +6,8 @@ import com.l0v3ch4n.oj.exception.BusinessException;
 import com.l0v3ch4n.oj.judge.sandbox.CodeSandbox;
 import com.l0v3ch4n.oj.judge.sandbox.CodeSandboxFactory;
 import com.l0v3ch4n.oj.judge.sandbox.CodeSandboxProxy;
+import com.l0v3ch4n.oj.model.entity.Question;
+import com.l0v3ch4n.oj.model.entity.QuestionSubmit;
 import com.l0v3ch4n.oj.service.QuestionService;
 import com.l0v3ch4n.oj.service.QuestionSubmitService;
 import com.l0v3ch4n.oj.judge.sandbox.model.ExecuteCodeRequest;
@@ -13,8 +15,6 @@ import com.l0v3ch4n.oj.judge.sandbox.model.ExecuteCodeResponse;
 import com.l0v3ch4n.oj.judge.sandbox.model.JudgeInfo;
 import com.l0v3ch4n.oj.judge.strategy.JudgeContext;
 import com.l0v3ch4n.oj.model.dto.question.JudgeCase;
-import com.l0v3ch4n.oj.model.entity.Question;
-import com.l0v3ch4n.oj.model.entity.QuestionSubmit;
 import com.l0v3ch4n.oj.model.enums.QuestionSubmitStatusEnum;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -57,7 +57,7 @@ public class JudgeServiceImpl implements JudgeService {
         }
         // 3）更改判题（题目提交）的状态为 “判题中”，防止重复执行
         QuestionSubmit questionSubmitUpdate = new QuestionSubmit();
-        questionSubmitUpdate.setId(questionSubmitId);
+        questionSubmitUpdate.setQuestionSubmitId(questionSubmitId);
         questionSubmitUpdate.setStatus(QuestionSubmitStatusEnum.RUNNING.getValue());
         boolean update = questionSubmitService.updateById(questionSubmitUpdate);
         if (!update) {
@@ -90,7 +90,7 @@ public class JudgeServiceImpl implements JudgeService {
         JudgeInfo judgeInfo = judgeManager.doJudge(judgeContext);
         // 6）修改数据库中的判题结果
         questionSubmitUpdate = new QuestionSubmit();
-        questionSubmitUpdate.setId(questionSubmitId);
+        questionSubmitUpdate.setQuestionSubmitId(questionSubmitId);
         questionSubmitUpdate.setStatus(QuestionSubmitStatusEnum.SUCCEED.getValue());
         questionSubmitUpdate.setJudgeInfo(JSONUtil.toJsonStr(judgeInfo));
         update = questionSubmitService.updateById(questionSubmitUpdate);

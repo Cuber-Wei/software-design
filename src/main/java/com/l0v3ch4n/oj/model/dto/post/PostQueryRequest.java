@@ -17,12 +17,12 @@ public class PostQueryRequest extends PageRequest implements Serializable {
     /**
      * id
      */
-    private Long id;
+    private Long postId;
 
     /**
      * id
      */
-    private Long notId;
+    private Long notPostId;
 
     /**
      * 搜索词
@@ -42,22 +42,22 @@ public class PostQueryRequest extends PageRequest implements Serializable {
     /**
      * 标签列表
      */
-    private List<String> tags;
+    private List<String> tag;
 
     /**
      * 至少有一个标签
      */
-    private List<String> orTags;
+    private List<String> orTag;
+
+    /**
+     * 审核状态
+     */
+    private Integer reviewStatus;
 
     /**
      * 创建用户 id
      */
     private Long userId;
-
-    /**
-     * 收藏用户 id
-     */
-    private Long favourUserId;
 
     private static final long serialVersionUID = 1L;
 }

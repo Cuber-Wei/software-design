@@ -74,7 +74,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             if (!saveResult) {
                 throw new BusinessException(ErrorCode.SYSTEM_ERROR, "注册失败，数据库错误");
             }
-            return user.getId();
+            return user.getUserId();
         }
     }
 
@@ -150,11 +150,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 先判断是否已登录
         Object userObj = request.getSession().getAttribute(UserConstant.USER_LOGIN_STATE);
         User currentUser = (User) userObj;
-        if (currentUser == null || currentUser.getId() == null) {
+        if (currentUser == null || currentUser.getUserId() == null) {
             throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
         }
         // 从数据库查询（追求性能的话可以注释，直接走缓存）
-        long userId = currentUser.getId();
+        long userId = currentUser.getUserId();
         currentUser = this.getById(userId);
         if (currentUser == null) {
             throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
@@ -173,11 +173,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 先判断是否已登录
         Object userObj = request.getSession().getAttribute(UserConstant.USER_LOGIN_STATE);
         User currentUser = (User) userObj;
-        if (currentUser == null || currentUser.getId() == null) {
+        if (currentUser == null || currentUser.getUserRole() == null) {
             return null;
         }
         // 从数据库查询（追求性能的话可以注释，直接走缓存）
-        long userId = currentUser.getId();
+        long userId = currentUser.getUserId();
         return this.getById(userId);
     }
 
@@ -248,7 +248,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (userQueryRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "请求参数为空");
         }
-        Long id = userQueryRequest.getId();
+        Long id = userQueryRequest.getUserId();
         String unionId = userQueryRequest.getUnionId();
         String mpOpenId = userQueryRequest.getMpOpenId();
         String userName = userQueryRequest.getUserName();

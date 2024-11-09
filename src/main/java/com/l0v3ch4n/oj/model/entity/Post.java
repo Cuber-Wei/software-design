@@ -1,23 +1,30 @@
 package com.l0v3ch4n.oj.model.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
-import lombok.Data;
-
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
  * 帖子
+ * @TableName post
  */
-@TableName(value = "post")
+@TableName(value ="post")
 @Data
 public class Post implements Serializable {
-
     /**
      * id
      */
-    @TableId(type = IdType.ASSIGN_ID)
-    private Long id;
+    @TableId(type = IdType.AUTO)
+    private Long postId;
+
+    /**
+     * 创建用户 id
+     */
+    private Long userId;
 
     /**
      * 标题
@@ -30,24 +37,14 @@ public class Post implements Serializable {
     private String content;
 
     /**
-     * 标签列表 json
+     * 标签列表（json 数组）
      */
-    private String tags;
+    private String tag;
 
     /**
-     * 点赞数
+     * 审核状态（0 - 待审核、1 - 审核通过、2 - 审核未通过）
      */
-    private Integer thumbNum;
-
-    /**
-     * 收藏数
-     */
-    private Integer favourNum;
-
-    /**
-     * 创建用户 id
-     */
-    private Long userId;
+    private Integer reviewStatus;
 
     /**
      * 创建时间
@@ -62,7 +59,6 @@ public class Post implements Serializable {
     /**
      * 是否删除
      */
-    @TableLogic
     private Integer isDelete;
 
     @TableField(exist = false)

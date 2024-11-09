@@ -1,38 +1,25 @@
 package com.l0v3ch4n.oj.model.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
-import lombok.Data;
-
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
  * 题解
+ * @TableName write_up
  */
-@TableName(value = "post")
+@TableName(value ="write_up")
 @Data
 public class WriteUp implements Serializable {
-
     /**
-     * 题解id
+     * id
      */
-    @TableId(type = IdType.ASSIGN_ID)
-    private Long id;
-
-    /**
-     * 标题
-     */
-    private String title;
-
-    /**
-     * 内容
-     */
-    private String content;
-
-    /**
-     * 标签列表 json
-     */
-    private String tags;
+    @TableId(type = IdType.AUTO)
+    private Long writeUpId;
 
     /**
      * 创建用户 id
@@ -45,7 +32,22 @@ public class WriteUp implements Serializable {
     private Long questionId;
 
     /**
-     * 审核状态
+     * 标题
+     */
+    private String title;
+
+    /**
+     * 内容
+     */
+    private String content;
+
+    /**
+     * 标签列表（json 数组）
+     */
+    private String tag;
+
+    /**
+     * 审核状态（0 - 待审核、1 - 审核通过、2 - 审核未通过）
      */
     private Integer reviewStatus;
 
@@ -62,7 +64,6 @@ public class WriteUp implements Serializable {
     /**
      * 是否删除
      */
-    @TableLogic
     private Integer isDelete;
 
     @TableField(exist = false)

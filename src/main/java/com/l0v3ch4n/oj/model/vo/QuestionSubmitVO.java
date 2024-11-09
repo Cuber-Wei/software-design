@@ -16,10 +16,21 @@ import java.util.Date;
  */
 @Data
 public class QuestionSubmitVO implements Serializable {
+
     /**
      * id
      */
-    private Long id;
+    private Long questionSubmitId;
+
+    /**
+     * 创建用户 id
+     */
+    private Long userId;
+
+    /**
+     * 题目 id
+     */
+    private Long questionId;
 
     /**
      * 编程语言
@@ -40,16 +51,6 @@ public class QuestionSubmitVO implements Serializable {
      * 判题状态（0 - 待判题、1 - 判题中、2 - 成功、3 - 失败）
      */
     private Integer status;
-
-    /**
-     * 题目 id
-     */
-    private Long questionId;
-
-    /**
-     * 创建用户 id
-     */
-    private Long userId;
 
     /**
      * 创建时间

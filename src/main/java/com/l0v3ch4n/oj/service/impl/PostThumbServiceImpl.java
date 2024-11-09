@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.l0v3ch4n.oj.common.ErrorCode;
 import com.l0v3ch4n.oj.exception.BusinessException;
 import com.l0v3ch4n.oj.mapper.PostThumbMapper;
+import com.l0v3ch4n.oj.model.entity.Post;
+import com.l0v3ch4n.oj.model.entity.User;
 import com.l0v3ch4n.oj.service.PostService;
 import com.l0v3ch4n.oj.service.PostThumbService;
-import com.l0v3ch4n.oj.model.entity.Post;
 import com.l0v3ch4n.oj.model.entity.PostThumb;
-import com.l0v3ch4n.oj.model.entity.User;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +41,7 @@ public class PostThumbServiceImpl extends ServiceImpl<PostThumbMapper, PostThumb
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
         }
         // 是否已点赞
-        long userId = loginUser.getId();
+        long userId = loginUser.getUserId();
         // 每个用户串行点赞
         // 锁必须要包裹住事务方法
         PostThumbService postThumbService = (PostThumbService) AopContext.currentProxy();

@@ -11,7 +11,6 @@ import com.l0v3ch4n.oj.constant.UserConstant;
 import com.l0v3ch4n.oj.exception.BusinessException;
 import com.l0v3ch4n.oj.exception.ThrowUtils;
 import com.l0v3ch4n.oj.model.dto.user.*;
-import com.l0v3ch4n.oj.model.dto.user.*;
 import com.l0v3ch4n.oj.model.entity.User;
 import com.l0v3ch4n.oj.model.vo.LoginUserVO;
 import com.l0v3ch4n.oj.model.vo.UserVO;
@@ -72,17 +71,17 @@ public class UserController {
     /**
      * 用户登录
      *
-     * @param userLoginRequest
+     * @param userLoginWithAccountRequest
      * @param request
      * @return
      */
     @PostMapping("/login")
-    public BaseResponse<LoginUserVO> userLogin(@RequestBody UserLoginRequest userLoginRequest, HttpServletRequest request) {
-        if (userLoginRequest == null) {
+    public BaseResponse<LoginUserVO> userLogin(@RequestBody UserLoginWithAccountRequest userLoginWithAccountRequest, HttpServletRequest request) {
+        if (userLoginWithAccountRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        String userAccount = userLoginRequest.getUserAccount();
-        String userPassword = userLoginRequest.getUserPassword();
+        String userAccount = userLoginWithAccountRequest.getUserAccount();
+        String userPassword = userLoginWithAccountRequest.getUserPassword();
         if (StringUtils.isAnyBlank(userAccount, userPassword)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -165,7 +164,7 @@ public class UserController {
         user.setUserPassword(encryptPassword);
         boolean result = userService.save(user);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
-        return ResultUtils.success(user.getId());
+        return ResultUtils.success(user.getUserId());
     }
 
     /**
@@ -196,7 +195,7 @@ public class UserController {
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Boolean> updateUser(@RequestBody UserUpdateRequest userUpdateRequest,
                                             HttpServletRequest request) {
-        if (userUpdateRequest == null || userUpdateRequest.getId() == null) {
+        if (userUpdateRequest == null || userUpdateRequest.getUserId() == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         User user = new User();
@@ -299,7 +298,7 @@ public class UserController {
         User loginUser = userService.getLoginUser(request);
         User user = new User();
         BeanUtils.copyProperties(userUpdateMyRequest, user);
-        user.setId(loginUser.getId());
+        user.setUserId(loginUser.getUserId());
         boolean result = userService.updateById(user);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
         return ResultUtils.success(true);

@@ -4,24 +4,27 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
  * 题目
- *
  * @TableName question
  */
-@TableName(value = "question")
+@TableName(value ="question")
 @Data
 public class Question implements Serializable {
     /**
      * id
      */
-    @TableId(type = IdType.ASSIGN_ID)
-    private Long id;
+    @TableId(type = IdType.AUTO)
+    private Long questionId;
+
+    /**
+     * 创建用户 id
+     */
+    private Long userId;
 
     /**
      * 标题
@@ -34,24 +37,14 @@ public class Question implements Serializable {
     private String content;
 
     /**
-     * 题目答案
-     */
-    private String answer;
-
-    /**
      * 标签列表（json 数组）
      */
-    private String tags;
+    private String tag;
 
     /**
-     * 题目提交数
+     * 参考答案
      */
-    private Integer submitNum;
-
-    /**
-     * 题目通过数
-     */
-    private Integer acceptedNum;
+    private String answer;
 
     /**
      * 判题用例（json 数组）
@@ -62,21 +55,6 @@ public class Question implements Serializable {
      * 判题配置（json 对象）
      */
     private String judgeConfig;
-
-    /**
-     * 点赞数
-     */
-    private Integer thumbNum;
-
-    /**
-     * 收藏数
-     */
-    private Integer favourNum;
-
-    /**
-     * 创建用户 id
-     */
-    private Long userId;
 
     /**
      * 创建时间

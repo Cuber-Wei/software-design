@@ -57,18 +57,16 @@ public class PostController {
         }
         Post post = new Post();
         BeanUtils.copyProperties(postAddRequest, post);
-        List<String> tags = postAddRequest.getTags();
+        List<String> tags = postAddRequest.getTag();
         if (tags != null) {
-            post.setTags(JSONUtil.toJsonStr(tags));
+            post.setTag(JSONUtil.toJsonStr(tags));
         }
         postService.validPost(post, true);
         User loginUser = userService.getLoginUser(request);
-        post.setUserId(loginUser.getId());
-        post.setFavourNum(0);
-        post.setThumbNum(0);
+        post.setUserId(loginUser.getUserId());
         boolean result = postService.save(post);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
-        long newPostId = post.getId();
+        long newPostId = post.getPostId();
         return ResultUtils.success(newPostId);
     }
 
@@ -90,7 +88,7 @@ public class PostController {
         Post oldPost = postService.getById(id);
         ThrowUtils.throwIf(oldPost == null, ErrorCode.NOT_FOUND_ERROR);
         // 仅本人或管理员可删除
-        if (!oldPost.getUserId().equals(user.getId()) && !userService.isAdmin(request)) {
+        if (!oldPost.getUserId().equals(user.getUserId()) && !userService.isAdmin(request)) {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
         boolean b = postService.removeById(id);
@@ -106,18 +104,18 @@ public class PostController {
     @PostMapping("/update")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Boolean> updatePost(@RequestBody PostUpdateRequest postUpdateRequest) {
-        if (postUpdateRequest == null || postUpdateRequest.getId() <= 0) {
+        if (postUpdateRequest == null || postUpdateRequest.getPostId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         Post post = new Post();
         BeanUtils.copyProperties(postUpdateRequest, post);
         List<String> tags = postUpdateRequest.getTags();
         if (tags != null) {
-            post.setTags(JSONUtil.toJsonStr(tags));
+            post.setTag(JSONUtil.toJsonStr(tags));
         }
         // 参数校验
         postService.validPost(post, false);
-        long id = postUpdateRequest.getId();
+        long id = postUpdateRequest.getPostId();
         // 判断是否存在
         Post oldPost = postService.getById(id);
         ThrowUtils.throwIf(oldPost == null, ErrorCode.NOT_FOUND_ERROR);
@@ -192,7 +190,7 @@ public class PostController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         User loginUser = userService.getLoginUser(request);
-        postQueryRequest.setUserId(loginUser.getId());
+        postQueryRequest.setUserId(loginUser.getUserId());
         long current = postQueryRequest.getCurrent();
         long size = postQueryRequest.getPageSize();
         // 限制爬虫
@@ -230,24 +228,24 @@ public class PostController {
      */
     @PostMapping("/edit")
     public BaseResponse<Boolean> editPost(@RequestBody PostEditRequest postEditRequest, HttpServletRequest request) {
-        if (postEditRequest == null || postEditRequest.getId() <= 0) {
+        if (postEditRequest == null || postEditRequest.getPostId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         Post post = new Post();
         BeanUtils.copyProperties(postEditRequest, post);
-        List<String> tags = postEditRequest.getTags();
+        List<String> tags = postEditRequest.getTag();
         if (tags != null) {
-            post.setTags(JSONUtil.toJsonStr(tags));
+            post.setTag(JSONUtil.toJsonStr(tags));
         }
         // 参数校验
         postService.validPost(post, false);
         User loginUser = userService.getLoginUser(request);
-        long id = postEditRequest.getId();
+        long id = postEditRequest.getPostId();
         // 判断是否存在
         Post oldPost = postService.getById(id);
         ThrowUtils.throwIf(oldPost == null, ErrorCode.NOT_FOUND_ERROR);
         // 仅本人或管理员可编辑
-        if (!oldPost.getUserId().equals(loginUser.getId()) && !userService.isAdmin(loginUser)) {
+        if (!oldPost.getUserId().equals(loginUser.getUserId()) && !userService.isAdmin(loginUser)) {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
         boolean result = postService.updateById(post);

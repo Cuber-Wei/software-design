@@ -28,7 +28,7 @@ public class PostEsDTO implements Serializable {
      * id
      */
     @Id
-    private Long id;
+    private Long postId;
 
     /**
      * 标题
@@ -43,17 +43,7 @@ public class PostEsDTO implements Serializable {
     /**
      * 标签列表
      */
-    private List<String> tags;
-
-    /**
-     * 点赞数
-     */
-    private Integer thumbNum;
-
-    /**
-     * 收藏数
-     */
-    private Integer favourNum;
+    private List<String> tag;
 
     /**
      * 创建用户 id
@@ -91,9 +81,9 @@ public class PostEsDTO implements Serializable {
         }
         PostEsDTO postEsDTO = new PostEsDTO();
         BeanUtils.copyProperties(post, postEsDTO);
-        String tagsStr = post.getTags();
+        String tagsStr = post.getTag();
         if (StringUtils.isNotBlank(tagsStr)) {
-            postEsDTO.setTags(JSONUtil.toList(tagsStr, String.class));
+            postEsDTO.setTag(JSONUtil.toList(tagsStr, String.class));
         }
         return postEsDTO;
     }
@@ -110,9 +100,9 @@ public class PostEsDTO implements Serializable {
         }
         Post post = new Post();
         BeanUtils.copyProperties(postEsDTO, post);
-        List<String> tagList = postEsDTO.getTags();
+        List<String> tagList = postEsDTO.getTag();
         if (CollUtil.isNotEmpty(tagList)) {
-            post.setTags(JSONUtil.toJsonStr(tagList));
+            post.setTag(JSONUtil.toJsonStr(tagList));
         }
         return post;
     }

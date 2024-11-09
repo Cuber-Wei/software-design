@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 
 /**
- * 帖子点赞请求
+ * 题目提交请求
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -27,7 +27,6 @@ public class QuestionSubmitQueryRequest extends PageRequest implements Serializa
      * 题目 id
      */
     private Long questionId;
-
 
     /**
      * 用户 id

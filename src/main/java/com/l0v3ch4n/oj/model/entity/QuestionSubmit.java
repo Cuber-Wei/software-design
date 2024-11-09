@@ -4,24 +4,32 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
  * 题目提交
- *
  * @TableName question_submit
  */
-@TableName(value = "question_submit")
+@TableName(value ="question_submit")
 @Data
 public class QuestionSubmit implements Serializable {
     /**
      * id
      */
-    @TableId(type = IdType.ASSIGN_ID)
-    private Long id;
+    @TableId(type = IdType.AUTO)
+    private Long questionSubmitId;
+
+    /**
+     * 创建用户 id
+     */
+    private Long userId;
+
+    /**
+     * 题目 id
+     */
+    private Long questionId;
 
     /**
      * 编程语言
@@ -42,16 +50,6 @@ public class QuestionSubmit implements Serializable {
      * 判题状态（0 - 待判题、1 - 判题中、2 - 成功、3 - 失败）
      */
     private Integer status;
-
-    /**
-     * 题目 id
-     */
-    private Long questionId;
-
-    /**
-     * 创建用户 id
-     */
-    private Long userId;
 
     /**
      * 创建时间

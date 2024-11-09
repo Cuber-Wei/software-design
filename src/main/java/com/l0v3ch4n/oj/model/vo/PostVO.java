@@ -18,7 +18,12 @@ public class PostVO implements Serializable {
     /**
      * id
      */
-    private Long id;
+    private Long postId;
+
+    /**
+     * 创建用户 id
+     */
+    private Long userId;
 
     /**
      * 标题
@@ -31,19 +36,14 @@ public class PostVO implements Serializable {
     private String content;
 
     /**
-     * 点赞数
+     * 标签列表 json
      */
-    private Integer thumbNum;
+    private List<String> tag;
 
     /**
-     * 收藏数
+     * 审核状态
      */
-    private Integer favourNum;
-
-    /**
-     * 创建用户 id
-     */
-    private Long userId;
+    private Integer reviewStatus;
 
     /**
      * 创建时间
@@ -56,24 +56,9 @@ public class PostVO implements Serializable {
     private Date updateTime;
 
     /**
-     * 标签列表
-     */
-    private List<String> tags;
-
-    /**
      * 创建人信息
      */
     private UserVO user;
-
-    /**
-     * 是否已点赞
-     */
-    private Boolean hasThumb;
-
-    /**
-     * 是否已收藏
-     */
-    private Boolean hasFavour;
 
     /**
      * 包装类转对象
@@ -87,8 +72,8 @@ public class PostVO implements Serializable {
         }
         Post post = new Post();
         BeanUtils.copyProperties(postVO, post);
-        List<String> tagList = postVO.getTags();
-        post.setTags(JSONUtil.toJsonStr(tagList));
+        List<String> tagList = postVO.getTag();
+        post.setTag(JSONUtil.toJsonStr(tagList));
         return post;
     }
 
@@ -104,7 +89,9 @@ public class PostVO implements Serializable {
         }
         PostVO postVO = new PostVO();
         BeanUtils.copyProperties(post, postVO);
-        postVO.setTags(JSONUtil.toList(post.getTags(), String.class));
+        postVO.setTag(JSONUtil.toList(post.getTag(), String.class));
         return postVO;
     }
+
+    private static final long serialVersionUID = 1L;
 }

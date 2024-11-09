@@ -10,13 +10,13 @@ import com.l0v3ch4n.oj.exception.BusinessException;
 import com.l0v3ch4n.oj.mapper.QuestionSubmitMapper;
 import com.l0v3ch4n.oj.model.dto.questionsubmit.QuestionSubmitAddRequest;
 import com.l0v3ch4n.oj.model.dto.questionsubmit.QuestionSubmitQueryRequest;
+import com.l0v3ch4n.oj.model.entity.Question;
+import com.l0v3ch4n.oj.model.entity.QuestionSubmit;
+import com.l0v3ch4n.oj.model.entity.User;
 import com.l0v3ch4n.oj.service.QuestionService;
 import com.l0v3ch4n.oj.service.QuestionSubmitService;
 import com.l0v3ch4n.oj.service.UserService;
 import com.l0v3ch4n.oj.utils.SqlUtils;
-import com.l0v3ch4n.oj.model.entity.Question;
-import com.l0v3ch4n.oj.model.entity.QuestionSubmit;
-import com.l0v3ch4n.oj.model.entity.User;
 import com.l0v3ch4n.oj.model.enums.QuestionSubmitLanguageEnum;
 import com.l0v3ch4n.oj.model.enums.QuestionSubmitStatusEnum;
 import com.l0v3ch4n.oj.model.vo.QuestionSubmitVO;
@@ -64,7 +64,7 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
         }
         // 是否已提交题目
-        long userId = loginUser.getId();
+        long userId = loginUser.getUserId();
         // 每个用户串行提交题目
         QuestionSubmit questionSubmit = new QuestionSubmit();
         questionSubmit.setUserId(userId);
@@ -79,7 +79,7 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "数据插入失败");
         }
         // todo 执行判题服务
-        return questionSubmit.getId();
+        return questionSubmit.getQuestionSubmitId();
     }
 
     /**
@@ -117,7 +117,7 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
     public QuestionSubmitVO getQuestionSubmitVO(QuestionSubmit questionSubmit, User loginUser) {
         QuestionSubmitVO questionSubmitVO = QuestionSubmitVO.objToVo(questionSubmit);
         // 脱敏：仅本人和管理员能看见自己（提交 userId 和登录用户 id 不同）提交的代码
-        long userId = loginUser.getId();
+        long userId = loginUser.getUserId();
         Long submitUserId = questionSubmit.getUserId();
         User submitUser = userService.getById(submitUserId);
         UserVO userVO = userService.getUserVO(submitUser);

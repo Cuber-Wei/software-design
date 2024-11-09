@@ -54,7 +54,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         }
         String title = question.getTitle();
         String content = question.getContent();
-        String tags = question.getTags();
+        String tags = question.getTag();
         String answer = question.getAnswer();
         String judgeCase = question.getJudgeCase();
         String judgeConfig = question.getJudgeConfig();
@@ -92,10 +92,10 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         if (questionQueryRequest == null) {
             return queryWrapper;
         }
-        Long id = questionQueryRequest.getId();
+        Long id = questionQueryRequest.getQuestionId();
         String title = questionQueryRequest.getTitle();
         String content = questionQueryRequest.getContent();
-        List<String> tags = questionQueryRequest.getTags();
+        List<String> tags = questionQueryRequest.getTag();
         String answer = questionQueryRequest.getAnswer();
         Long userId = questionQueryRequest.getUserId();
         String sortField = questionQueryRequest.getSortField();
@@ -142,7 +142,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         // 1. 关联查询用户信息
         Set<Long> userIdSet = questionList.stream().map(Question::getUserId).collect(Collectors.toSet());
         Map<Long, List<User>> userIdUserListMap = userService.listByIds(userIdSet).stream()
-                .collect(Collectors.groupingBy(User::getId));
+                .collect(Collectors.groupingBy(User::getUserId));
         // 填充信息
         List<QuestionVO> questionVOList = questionList.stream().map(question -> {
             QuestionVO questionVO = QuestionVO.objToVo(question);

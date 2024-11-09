@@ -14,7 +14,7 @@ public class QuestionEditRequest implements Serializable {
     /**
      * id
      */
-    private Long id;
+    private Long questionId;
 
     /**
      * 标题
@@ -29,7 +29,7 @@ public class QuestionEditRequest implements Serializable {
     /**
      * 标签列表（json 数组）
      */
-    private List<String> tags;
+    private List<String> tag;
 
     /**
      * 题目答案

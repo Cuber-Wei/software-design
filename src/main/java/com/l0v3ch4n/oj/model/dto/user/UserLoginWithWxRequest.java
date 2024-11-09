@@ -8,11 +8,17 @@ import java.io.Serializable;
  * 用户登录请求
  */
 @Data
-public class UserLoginRequest implements Serializable {
+public class UserLoginWithWxRequest implements Serializable {
 
     private static final long serialVersionUID = 3191241716373120793L;
 
-    private String userAccount;
+    /**
+     * 开放平台id
+     */
+    private String unionId;
 
-    private String userPassword;
+    /**
+     * 公众号openId
+     */
+    private String mpOpenId;
 }

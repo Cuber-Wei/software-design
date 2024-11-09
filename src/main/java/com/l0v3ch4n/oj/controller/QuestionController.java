@@ -11,7 +11,6 @@ import com.l0v3ch4n.oj.constant.UserConstant;
 import com.l0v3ch4n.oj.exception.BusinessException;
 import com.l0v3ch4n.oj.exception.ThrowUtils;
 import com.l0v3ch4n.oj.model.dto.question.*;
-import com.l0v3ch4n.oj.model.dto.question.*;
 import com.l0v3ch4n.oj.model.entity.Question;
 import com.l0v3ch4n.oj.model.entity.User;
 import com.l0v3ch4n.oj.model.vo.QuestionVO;
@@ -55,9 +54,9 @@ public class QuestionController {
         }
         Question question = new Question();
         BeanUtils.copyProperties(questionAddRequest, question);
-        List<String> tags = questionAddRequest.getTags();
+        List<String> tags = questionAddRequest.getTag();
         if (tags != null) {
-            question.setTags(JSONUtil.toJsonStr(tags));
+            question.setTag(JSONUtil.toJsonStr(tags));
         }
         List<JudgeCase> judgeCase = questionAddRequest.getJudgeCase();
         if (judgeCase != null) {
@@ -69,12 +68,10 @@ public class QuestionController {
         }
         questionService.validQuestion(question, true);
         User loginUser = userService.getLoginUser(request);
-        question.setUserId(loginUser.getId());
-        question.setFavourNum(0);
-        question.setThumbNum(0);
+        question.setUserId(loginUser.getUserId());
         boolean result = questionService.save(question);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
-        long newQuestionId = question.getId();
+        long newQuestionId = question.getQuestionId();
         return ResultUtils.success(newQuestionId);
     }
 
@@ -96,7 +93,7 @@ public class QuestionController {
         Question oldQuestion = questionService.getById(id);
         ThrowUtils.throwIf(oldQuestion == null, ErrorCode.NOT_FOUND_ERROR);
         // 仅本人或管理员可删除
-        if (!oldQuestion.getUserId().equals(user.getId()) && !userService.isAdmin(request)) {
+        if (!oldQuestion.getUserId().equals(user.getUserId()) && !userService.isAdmin(request)) {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
         boolean b = questionService.removeById(id);
@@ -112,14 +109,14 @@ public class QuestionController {
     @PostMapping("/update")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Boolean> updateQuestion(@RequestBody QuestionUpdateRequest questionUpdateRequest) {
-        if (questionUpdateRequest == null || questionUpdateRequest.getId() <= 0) {
+        if (questionUpdateRequest == null || questionUpdateRequest.getQuestionId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         Question question = new Question();
         BeanUtils.copyProperties(questionUpdateRequest, question);
-        List<String> tags = questionUpdateRequest.getTags();
+        List<String> tags = questionUpdateRequest.getTag();
         if (tags != null) {
-            question.setTags(JSONUtil.toJsonStr(tags));
+            question.setTag(JSONUtil.toJsonStr(tags));
         }
         List<JudgeCase> judgeCase = questionUpdateRequest.getJudgeCase();
         if (judgeCase != null) {
@@ -131,7 +128,7 @@ public class QuestionController {
         }
         // 参数校验
         questionService.validQuestion(question, false);
-        long id = questionUpdateRequest.getId();
+        long id = questionUpdateRequest.getQuestionId();
         // 判断是否存在
         Question oldQuestion = questionService.getById(id);
         ThrowUtils.throwIf(oldQuestion == null, ErrorCode.NOT_FOUND_ERROR);
@@ -156,7 +153,7 @@ public class QuestionController {
         }
         User loginUser = userService.getLoginUser(request);
         // 不是本人或管理员，不能直接获取所有信息
-        if (!question.getUserId().equals(loginUser.getId()) && !userService.isAdmin(loginUser)) {
+        if (!question.getUserId().equals(loginUser.getUserId()) && !userService.isAdmin(loginUser)) {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
         return ResultUtils.success(question);
@@ -214,7 +211,7 @@ public class QuestionController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         final User loginUser = userService.getLoginUser(request);
-        questionQueryRequest.setUserId(loginUser.getId());
+        questionQueryRequest.setUserId(loginUser.getUserId());
         long current = questionQueryRequest.getCurrent();
         long size = questionQueryRequest.getPageSize();
         // 限制爬虫
@@ -253,14 +250,14 @@ public class QuestionController {
      */
     @PostMapping("/edit")
     public BaseResponse<Boolean> editQuestion(@RequestBody QuestionEditRequest questionEditRequest, HttpServletRequest request) {
-        if (questionEditRequest == null || questionEditRequest.getId() <= 0) {
+        if (questionEditRequest == null || questionEditRequest.getQuestionId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         Question question = new Question();
         BeanUtils.copyProperties(questionEditRequest, question);
-        List<String> tags = questionEditRequest.getTags();
+        List<String> tags = questionEditRequest.getTag();
         if (tags != null) {
-            question.setTags(JSONUtil.toJsonStr(tags));
+            question.setTag(JSONUtil.toJsonStr(tags));
         }
         List<JudgeCase> judgeCase = questionEditRequest.getJudgeCase();
         if (judgeCase != null) {
@@ -273,12 +270,12 @@ public class QuestionController {
         // 参数校验
         questionService.validQuestion(question, false);
         User loginUser = userService.getLoginUser(request);
-        long id = questionEditRequest.getId();
+        long id = questionEditRequest.getQuestionId();
         // 判断是否存在
         Question oldQuestion = questionService.getById(id);
         ThrowUtils.throwIf(oldQuestion == null, ErrorCode.NOT_FOUND_ERROR);
         // 仅本人或管理员可编辑
-        if (!oldQuestion.getUserId().equals(loginUser.getId()) && !userService.isAdmin(loginUser)) {
+        if (!oldQuestion.getUserId().equals(loginUser.getUserId()) && !userService.isAdmin(loginUser)) {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
         boolean result = questionService.updateById(question);

@@ -2,9 +2,11 @@ package com.l0v3ch4n.oj.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import javax.annotation.Resource;
+
 import com.l0v3ch4n.oj.model.entity.Post;
 import com.l0v3ch4n.oj.model.entity.User;
-import javax.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -23,7 +25,7 @@ class PostFavourServiceTest {
 
     @BeforeAll
     static void setUp() {
-        loginUser.setId(1L);
+        loginUser.setUserId(1L);
     }
 
     @Test
@@ -36,6 +38,6 @@ class PostFavourServiceTest {
     void listFavourPostByPage() {
         QueryWrapper<Post> postQueryWrapper = new QueryWrapper<>();
         postQueryWrapper.eq("id", 1L);
-        postFavourService.listFavourPostByPage(Page.of(0, 1), postQueryWrapper, loginUser.getId());
+        postFavourService.listFavourPostByPage(Page.of(0, 1), postQueryWrapper, loginUser.getUserId());
     }
 }

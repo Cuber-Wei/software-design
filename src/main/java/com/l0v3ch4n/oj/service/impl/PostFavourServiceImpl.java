@@ -8,11 +8,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.l0v3ch4n.oj.common.ErrorCode;
 import com.l0v3ch4n.oj.exception.BusinessException;
 import com.l0v3ch4n.oj.mapper.PostFavourMapper;
+import com.l0v3ch4n.oj.model.entity.Post;
 import com.l0v3ch4n.oj.model.entity.PostFavour;
+import com.l0v3ch4n.oj.model.entity.User;
 import com.l0v3ch4n.oj.service.PostFavourService;
 import com.l0v3ch4n.oj.service.PostService;
-import com.l0v3ch4n.oj.model.entity.Post;
-import com.l0v3ch4n.oj.model.entity.User;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,7 +44,7 @@ public class PostFavourServiceImpl extends ServiceImpl<PostFavourMapper, PostFav
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
         }
         // 是否已帖子收藏
-        long userId = loginUser.getId();
+        long userId = loginUser.getUserId();
         // 每个用户串行帖子收藏
         // 锁必须要包裹住事务方法
         PostFavourService postFavourService = (PostFavourService) AopContext.currentProxy();
