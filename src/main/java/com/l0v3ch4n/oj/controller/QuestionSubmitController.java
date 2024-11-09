@@ -13,10 +13,7 @@ import com.l0v3ch4n.oj.model.vo.QuestionSubmitVO;
 import com.l0v3ch4n.oj.service.QuestionSubmitService;
 import com.l0v3ch4n.oj.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -52,6 +49,23 @@ public class QuestionSubmitController {
         final User loginUser = userService.getLoginUser(request);
         long questionSubmitId = questionSubmitService.doQuestionSubmit(questionSubmitAddRequest, loginUser);
         return ResultUtils.success(questionSubmitId);
+    }
+
+    /**
+     * 根据 id 获取包装类
+     *
+     * @param id
+     * @param request
+     * @return
+     */
+    @GetMapping("/get/vo")
+    public BaseResponse<QuestionSubmitVO> getQuestionSubmitVOById(long id, HttpServletRequest request) {
+        if (id <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        QuestionSubmit questionSubmit = questionSubmitService.getById(id);
+        final User loginUser = userService.getLoginUser(request);
+        return ResultUtils.success(questionSubmitService.getQuestionSubmitVO(questionSubmit, loginUser));
     }
 
     /**
