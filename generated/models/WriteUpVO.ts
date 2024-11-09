@@ -2,16 +2,18 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type Question = {
-  answer?: string;
+import type { UserVO } from "./UserVO";
+
+export type WriteUpVO = {
   content?: string;
   createTime?: string;
-  isDelete?: number;
-  judgeCase?: string;
-  judgeConfig?: string;
+  id?: number;
   questionId?: number;
-  tag?: string;
+  reviewStatus?: number;
+  tag?: Array<string>;
   title?: string;
   updateTime?: string;
+  user?: UserVO;
   userId?: number;
+  writeUpId?: number;
 };

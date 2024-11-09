@@ -12,7 +12,7 @@
             <template #extra>
               <a-space wrap>
                 <a-tag
-                  v-for="(item, index) of post.tags"
+                  v-for="(item, index) of post.tag"
                   :key="index"
                   color="green"
                   >{{ item }}
@@ -99,15 +99,6 @@ const comment = ref({
 
 const onContentChange = (v: string) => {
   comment.value.content = v;
-};
-
-const doSubmit = async () => {
-  const res = await PostControllerService.addPostUsingPost(post.value);
-  if (res.code === 0) {
-    message.success("创建帖子成功！");
-  } else {
-    message.error("创建帖子失败 " + res.message);
-  }
 };
 </script>
 <style>

@@ -107,7 +107,10 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
-import { UserControllerService, UserLoginRequest } from "../../../generated";
+import {
+  UserControllerService,
+  UserLoginWithAccountRequest,
+} from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import {
   IconEmail,
@@ -132,7 +135,7 @@ const form = reactive({
   phone: "",
   verityCode: "",
   isRead: false,
-} as UserLoginRequest);
+} as UserLoginWithAccountRequest);
 const onFinish = (value) => {
   if (value !== trueCode.value) {
     verityCodeProps.value.error = true;

@@ -2,16 +2,15 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type Question = {
-  answer?: string;
+export type WriteUp = {
   content?: string;
   createTime?: string;
   isDelete?: number;
-  judgeCase?: string;
-  judgeConfig?: string;
   questionId?: number;
+  reviewStatus?: number;
   tag?: string;
   title?: string;
   updateTime?: string;
   userId?: number;
+  writeUpId?: number;
 };

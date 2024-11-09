@@ -72,7 +72,9 @@
           <a-doption v-if="showName !== '未登录'" @click="logOut"
             >退出登录
           </a-doption>
-          <a-doption v-if="showName !== '未登录'" @click="toPath('/center')"
+          <a-doption
+            v-if="showName !== '未登录'"
+            @click="toPath(`/center/${userId}`)"
             >用户中心
           </a-doption>
         </template>
@@ -143,6 +145,9 @@ const showName = computed(() => {
 });
 const userRole = computed(() => {
   return store.state.user?.loginUser?.userRole ?? "user";
+});
+const userId = computed(() => {
+  return store.state.user?.loginUser?.userId ?? -1;
 });
 const toLogin = () => {
   const name = store.state.user?.loginUser?.userName;

@@ -16,9 +16,9 @@
           class="formItem"
         />
       </a-form-item>
-      <a-form-item field="tags" label="标签">
+      <a-form-item field="tag" label="标签">
         <a-input-tag
-          v-model="post.tags"
+          v-model="post.tag"
           allow-clear
           class="formItem"
           placeholder="请输入标签"
@@ -44,7 +44,7 @@ import { useRoute } from "vue-router";
 const post = ref({
   title: "",
   content: "",
-  tags: ["简单"] as string[],
+  tag: ["简单"] as string[],
 } as PostAddRequest);
 
 const route = useRoute();
@@ -54,14 +54,14 @@ const loadData = async () => {
   if (!id) {
     return;
   }
-  const res = await PostControllerService.getPostByIdUsingGet(id as any);
+  const res = await PostControllerService.getPostVoByIdUsingGet(id as string);
   if (res.code === 0) {
     post.value = res.data;
     console.log(post.value);
-    if (!post.value.tags) {
-      post.value.tags = ["简单"];
+    if (!post.value.tag) {
+      post.value.tag = ["简单"];
     } else {
-      post.value.tags = JSON.parse(post.value.tags);
+      post.value.tag = JSON.parse(post.value.tag);
     }
   } else {
     message.error("加载失败！ " + res.message);

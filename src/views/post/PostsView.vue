@@ -8,9 +8,9 @@
         </a-form-item>
       </a-col>
       <a-col :span="10">
-        <a-form-item field="tags" label="标签" label-col-flex="80px">
+        <a-form-item field="tag" label="标签" label-col-flex="80px">
           <a-input-tag
-            v-model="searchParams.tags"
+            v-model="searchParams.tag"
             allow-clear
             class="formItem"
             placeholder="请输入标签"
@@ -46,9 +46,9 @@
       }"
       @page-change="onPageChange"
     >
-      <template #tags="{ record }">
+      <template #tag="{ record }">
         <a-space wrap>
-          <a-tag v-for="(item, index) of record.tags" :key="index" color="green"
+          <a-tag v-for="(item, index) of record.tag" :key="index" color="green"
             >{{ item }}
           </a-tag>
         </a-space>
@@ -59,7 +59,9 @@
         </a-space>
       </template>
       <template #createTime="{ record }">
-        <a-space> {{ moment(record.createTime).format("YYYY-MM-DD") }}</a-space>
+        <a-space>
+          {{ moment(record.createTime).format("YYYY-MM-DD-HH:MM:SS") }}
+        </a-space>
       </template>
       <template #optional="{ record }">
         <a-space>
@@ -82,7 +84,7 @@ const searchParams = ref({
   pageSize: 10,
   current: 1,
   title: "",
-  tags: [],
+  tag: [],
 });
 
 const loadData = async () => {
@@ -121,14 +123,14 @@ const columns = [
   },
   {
     title: "标签",
-    slotName: "tags",
+    slotName: "tag",
   },
   {
     title: "评论数",
     slotName: "commentNum",
   },
   {
-    title: "创建时间",
+    title: "发布时间",
     slotName: "createTime",
   },
   {
@@ -140,7 +142,7 @@ const columns = [
 const router = useRouter();
 const toPost = (post: Post) => {
   router.push({
-    path: `/view/post/${post.id}`,
+    path: `/view/post/${post.postId}`,
   });
 };
 

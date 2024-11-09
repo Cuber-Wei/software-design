@@ -2,15 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type QuestionQueryRequest = {
-  answer?: string;
+export type WriteUpAddRequest = {
   content?: string;
-  current?: number;
-  pageSize?: number;
-  questionId?: number;
-  sortField?: string;
-  sortOrder?: string;
   tag?: Array<string>;
   title?: string;
-  userId?: number;
 };

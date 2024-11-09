@@ -12,6 +12,11 @@
       }"
       @page-change="onPageChange"
     >
+      <template #createTime="{ record }">
+        <a-space>
+          {{ moment(record.createTime).format("YYYY-MM-DD-HH:MM:SS") }}
+        </a-space>
+      </template>
       <template #optional="{ record }">
         <a-space>
           <a-button type="primary" @click="doUpdate(record)">修改</a-button>
@@ -38,6 +43,7 @@ import { onMounted, ref, watchEffect } from "vue";
 import { User, UserControllerService } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
+import moment from "moment/moment";
 
 const dataList = ref([]);
 const total = ref(0);
@@ -80,10 +86,6 @@ const columns = [
     dataIndex: "userName",
   },
   {
-    title: "头像",
-    dataIndex: "userAvatar",
-  },
-  {
     title: "简介",
     dataIndex: "userProfile",
   },
@@ -101,7 +103,7 @@ const columns = [
   },
   {
     title: "注册时间",
-    dataIndex: "createTime",
+    slotName: "createTime",
   },
   {
     title: "操作",
@@ -111,12 +113,12 @@ const columns = [
 const router = useRouter();
 const doUpdate = (user: User) => {
   router.push({
-    path: `/user/edit/${user?.id}`,
+    path: `/user/edit/${user?.userId}`,
   });
 };
 const doDelete = async (user: User) => {
   const res = await UserControllerService.deleteUserUsingPost({
-    id: user.id,
+    id: user.userId,
   });
   if (res.code === 0) {
     // 更新页面

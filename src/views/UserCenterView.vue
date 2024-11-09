@@ -8,7 +8,7 @@
             <a-col :span="3" style="min-height: 100px">
               <div style="place-items: center; display: grid">
                 <a-avatar :size="100">
-                  <img :src="showData.userAvatar" alt="avatar" />
+                  <img :src="currUser.userAvatar" alt="avatar" />
                 </a-avatar>
               </div>
             </a-col>
@@ -19,24 +19,24 @@
               <!--用户名-->
               <a-row>
                 <h1 class="nickName">
-                  {{ showData.userName }}
+                  {{ currUser.userName }}
                 </h1>
               </a-row>
               <!--分割-->
               <div style="margin: 16px 0"></div>
               <!--签名-->
               <a-row class="userProfile">
-                <div>{{ showData.userProfile }}</div>
+                <div>{{ currUser.userProfile }}</div>
               </a-row>
               <!--分割-->
               <div style="margin: 16px 0"></div>
               <!--其他信息 权限角色 id-->
               <a-row>
                 <a-tag bordered class="extraInfo" color="orangered"
-                  >role : {{ showData.userRole }}
+                  >role : {{ currUser.userRole }}
                 </a-tag>
                 <a-tag bordered class="extraInfo" color="gray"
-                  >uid : {{ showData.userId }}
+                  >uid : {{ currUser.userId }}
                 </a-tag>
               </a-row>
             </a-col>
@@ -46,7 +46,7 @@
           <!--用户统计信息-->
           <a-row class="userStatistics">
             <a-col :span="12">
-              <a-button class="userButton" @click="toEditDetail(showData)"
+              <a-button class="userButton" @click="toEditDetail(currUser)"
                 >修改资料
               </a-button>
               <a-badge :count="9">
@@ -68,66 +68,41 @@
     </a-layout>
   </div>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import { useRouter } from "vue-router";
-import { useStore } from "vuex";
-import { UserControllerService } from "../../generated";
-import { ref } from "vue";
-import user from "@/store/user";
+import { UserControllerService, UserVO } from "../../generated";
+import { onMounted, ref } from "vue";
+import message from "@arco-design/web-vue/es/message";
 
-export default {
-  computed: {
-    user() {
-      return user;
-    },
-  },
-  setup() {
-    const router = useRouter();
-    const store = useStore();
-    // 获取用户信息并且进行处理
-    let showData = ref({});
-    UserControllerService.getLoginUserUsingGet()
-      .then((res) => {
-        if (res.code === 0) {
-          showData.value = {
-            userName: res.data?.userName,
-            userAvatar: res.data?.userAvatar ?? "oj-logo.png",
-            userProfile: res.data?.userProfile ?? "这是默认签名",
-            userRole: res.data?.userRole,
-            userId: res.data?.id,
-          };
-        } else {
-          showData.value = {
-            userName: "未登录",
-            userAvatar: "oj-logo.png",
-            userProfile: "这是默认签名",
-            userRole: "未登录",
-            userId: -1,
-          };
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    const toEditDetail = (data: any) => {
-      router.push({
-        path: `/user/edit/${data?.userId}`,
-      });
-    };
-    const toReview = () => {
-      router.push({
-        path: "/review",
-        replace: true,
-      });
-    };
-    return {
-      router,
-      store,
-      showData,
-      toEditDetail,
-      toReview,
-    };
-  },
+const router = useRouter();
+
+// 获取用户信息并且进行处理
+let currUser = ref<UserVO>({});
+const loadData = async () => {
+  //拿到当前用户
+  const res = await UserControllerService.getUserVoByIdUsingGet(
+    router.currentRoute.value.params.id as string
+  );
+  if (res.code === 0) {
+    currUser.value = res.data;
+  } else {
+    message.error("加载失败！ " + res.message);
+  }
+};
+onMounted(() => {
+  loadData();
+});
+
+const toEditDetail = (data: any) => {
+  router.push({
+    path: `/user/edit/${data?.userId}`,
+  });
+};
+const toReview = () => {
+  router.push({
+    path: "/review",
+    replace: true,
+  });
 };
 </script>
 <style scoped>

@@ -2,15 +2,18 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type QuestionQueryRequest = {
-  answer?: string;
+export type WriteUpQueryRequest = {
   content?: string;
   current?: number;
+  notWriteUpId?: number;
+  orTag?: Array<string>;
   pageSize?: number;
-  questionId?: number;
+  reviewStatus?: number;
+  searchText?: string;
   sortField?: string;
   sortOrder?: string;
   tag?: Array<string>;
   title?: string;
   userId?: number;
+  writeUpId?: number;
 };

@@ -181,7 +181,7 @@ const loadData = async () => {
     userId as string
   );
   if (res.code === 0) {
-    form.value.userId = res.data?.id;
+    form.value.userId = res.data?.userId;
     form.value.userName = res.data?.userName;
     form.value.userAvatar = res.data?.userAvatar;
     form.value.userProfile = res.data?.userProfile;

@@ -2,11 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type UserAddRequest = {
+export type UserLoginWithAccountRequest = {
   userAccount?: string;
-  userAvatar?: string;
-  userMail?: string;
-  userName?: string;
-  userPhone?: string;
-  userRole?: string;
+  userPassword?: string;
 };

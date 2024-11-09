@@ -12,9 +12,29 @@
       }"
       @page-change="onPageChange"
     >
+      <template #tag="{ record }">
+        <a-space wrap>
+          <a-tag
+            v-for="(item, index) of JSON.parse(record.tag)"
+            :key="index"
+            color="green"
+            >{{ item }}
+          </a-tag>
+        </a-space>
+      </template>
+      <template #createTime="{ record }">
+        <a-space>
+          {{ moment(record.createTime).format("YYYY-MM-DD-HH:MM:SS") }}
+        </a-space>
+      </template>
+      <template #updateTime="{ record }">
+        <a-space>
+          {{ moment(record.updateTime).format("YYYY-MM-DD-HH:MM:SS") }}
+        </a-space>
+      </template>
       <template #optional="{ record }">
         <a-space>
-          <a-button type="primary" @click="doUpdate(record)">修改</a-button>
+          <a-button type="primary" @click="doUpdate(record)">查看详情</a-button>
           <a-button status="danger" @click="doDelete(record)">删除</a-button>
         </a-space>
       </template>
@@ -35,6 +55,7 @@ import { onMounted, ref, watchEffect } from "vue";
 import { Question, QuestionControllerService } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
+import moment from "moment";
 
 const show = ref(true);
 
@@ -52,7 +73,6 @@ const loadData = async () => {
   if (res.code === 0) {
     dataList.value = res.data.records;
     total.value = res.data.total;
-    console.log(res.data);
   } else {
     message.error("加载数据失败！ " + res.message);
   }
@@ -76,44 +96,20 @@ const columns = [
     dataIndex: "title",
   },
   {
-    title: "题目描述",
-    dataIndex: "content",
-  },
-  {
-    title: "参考答案",
-    dataIndex: "answer",
+    title: "审核状态",
+    dataIndex: "reviewStatus",
   },
   {
     title: "标签",
-    dataIndex: "tags",
-  },
-  {
-    title: "提交数",
-    dataIndex: "submitNum",
-  },
-  {
-    title: "通过数",
-    dataIndex: "acceptedNum",
+    slotName: "tag",
   },
   {
     title: "创建时间",
-    dataIndex: "createTime",
+    slotName: "createTime",
   },
   {
     title: "更新时间",
-    dataIndex: "updateTime",
-  },
-  {
-    title: "题目配置",
-    dataIndex: "judgeConfig",
-  },
-  {
-    title: "测试用例",
-    dataIndex: "judgeCase",
-  },
-  {
-    title: "创建用户id",
-    dataIndex: "userId",
+    slotName: "updateTime",
   },
   {
     title: "创建用户",
@@ -129,13 +125,13 @@ const doUpdate = (question: Question) => {
   router.push({
     path: "/update/question",
     query: {
-      id: question.id,
+      id: question.questionId,
     },
   });
 };
 const doDelete = async (question: Question) => {
   const res = await QuestionControllerService.deleteQuestionUsingPost({
-    id: question.id,
+    id: question.questionId,
   });
   if (res.code === 0) {
     // 更新页面

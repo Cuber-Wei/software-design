@@ -20,6 +20,7 @@ import ViewPostView from "@/views/post/ViewPostView.vue";
 import AddWriteUpView from "@/views/writeup/AddWriteUpView.vue";
 import ManageWriteUpView from "@/views/writeup/ManageWriteUpView.vue";
 import ReviewView from "@/views/user/ReviewView.vue";
+import ViewQuestionSubmitView from "@/views/question/ViewQuestionSubmitView.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -60,13 +61,15 @@ export const routes: Array<RouteRecordRaw> = [
         path: "/user/edit/:id",
         name: "用户信息修改",
         component: UserEditView,
+        props: true,
       },
     ],
   },
   {
-    path: "/center",
+    path: "/center/:id",
     name: "用户中心",
     component: UserCenterView,
+    props: true,
     meta: {
       hideInMenu: true,
       access: ACCESSENUM.USER,
@@ -105,6 +108,16 @@ export const routes: Array<RouteRecordRaw> = [
     path: "/view/question/:id",
     name: "在线做题",
     component: ViewQuestionView,
+    props: true,
+    meta: {
+      hideInMenu: true,
+      access: ACCESSENUM.USER,
+    },
+  },
+  {
+    path: "/view/questionSubmit/:id",
+    name: "提交详情",
+    component: ViewQuestionSubmitView,
     props: true,
     meta: {
       hideInMenu: true,

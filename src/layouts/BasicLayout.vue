@@ -4,7 +4,7 @@
       <a-layout-header class="header">
         <GlobalHeader />
       </a-layout-header>
-      <div v-if="route.path === '/center'" class="userContainer">
+      <div v-if="route.path.startsWith('/center')" class="userContainer">
         <a-layout-content class="userCenterView">
           <UserCenterView />
         </a-layout-content>

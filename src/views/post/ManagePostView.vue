@@ -12,9 +12,36 @@
       }"
       @page-change="onPageChange"
     >
+      <template #tag="{ record }">
+        <a-space wrap>
+          <a-tag
+            v-for="(item, index) of JSON.parse(record.tag)"
+            :key="index"
+            color="green"
+            >{{ item }}
+          </a-tag>
+        </a-space>
+      </template>
+      <template #createTime="{ record }">
+        <a-space>
+          {{ moment(record.createTime).format("YYYY-MM-DD-HH:MM:SS") }}
+        </a-space>
+      </template>
+      <template #updateTime="{ record }">
+        <a-space>
+          {{ moment(record.createTime).format("YYYY-MM-DD-HH:MM:SS") }}
+        </a-space>
+      </template>
+      <template #userId="{ record }">
+        <a-space>
+          {{ record.userId }}
+        </a-space>
+      </template>
       <template #optional="{ record }">
         <a-space>
-          <a-button type="primary" @click="doUpdate(record)">修改</a-button>
+          <a-button type="primary" @click="toDetail(record)"
+            >查看帖子
+          </a-button>
           <a-button status="danger" @click="doDelete(record)">删除</a-button>
         </a-space>
       </template>
@@ -35,8 +62,7 @@ import { onMounted, ref, watchEffect } from "vue";
 import { Post, PostControllerService } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
-
-const show = ref(true);
+import moment from "moment";
 
 const dataList = ref([]);
 const total = ref(0);
@@ -68,19 +94,19 @@ watchEffect(() => {
 const columns = [
   {
     title: "ID",
-    dataIndex: "id",
+    dataIndex: "postId",
   },
   {
     title: "标题",
     dataIndex: "title",
   },
   {
-    title: "帖子内容",
-    dataIndex: "content",
+    title: "摘要",
+    dataIndex: "abstract",
   },
   {
     title: "标签",
-    dataIndex: "tags",
+    slotName: "tag",
   },
   {
     title: "评论数",
@@ -88,37 +114,26 @@ const columns = [
   },
   {
     title: "创建时间",
-    dataIndex: "createTime",
+    slotName: "createTime",
   },
   {
     title: "更新时间",
-    dataIndex: "updateTime",
-  },
-  {
-    title: "创建用户id",
-    dataIndex: "userId",
+    slotName: "updateTime",
   },
   {
     title: "创建用户",
-    dataIndex: "userVO",
+    slotName: "userId",
   },
   {
     title: "操作",
     slotName: "optional",
   },
 ];
+
 const router = useRouter();
-const doUpdate = (post: Post) => {
-  router.push({
-    path: "/update/post",
-    query: {
-      id: post.id,
-    },
-  });
-};
 const doDelete = async (post: Post) => {
   const res = await PostControllerService.deletePostUsingPost({
-    id: post.id,
+    id: post.postId,
   });
   if (res.code === 0) {
     // 更新页面
@@ -128,11 +143,19 @@ const doDelete = async (post: Post) => {
     message.error("删除帖子失败！ " + res.message);
   }
 };
+const toDetail = (post: Post) => {
+  router.push({ path: `/view/post/${post.postId}` });
+};
 const onPageChange = (page: number) => {
   searchParams.value = {
     ...searchParams.value,
     current: page,
   };
+};
+const toUser = (id: string) => {
+  router.push({
+    path: `/center/${id}`,
+  });
 };
 </script>
 <style scoped>
