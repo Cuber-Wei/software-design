@@ -102,7 +102,7 @@ public class WriteUpServiceImpl extends ServiceImpl<WriteUpMapper, WriteUp> impl
         queryWrapper.like(StringUtils.isNotBlank(content), "content", content);
         if (CollUtil.isNotEmpty(tagList)) {
             for (String tag : tagList) {
-                queryWrapper.like("tags", "\"" + tag + "\"");
+                queryWrapper.like("tag", "\"" + tag + "\"");
             }
         }
         queryWrapper.ne(ObjectUtils.isNotEmpty(notId), "id", notId);
@@ -143,14 +143,14 @@ public class WriteUpServiceImpl extends ServiceImpl<WriteUpMapper, WriteUp> impl
         // 必须包含所有标签
         if (CollUtil.isNotEmpty(tagList)) {
             for (String tag : tagList) {
-                boolQueryBuilder.filter(QueryBuilders.termQuery("tags", tag));
+                boolQueryBuilder.filter(QueryBuilders.termQuery("tag", tag));
             }
         }
         // 包含任何一个标签即可
         if (CollUtil.isNotEmpty(orTagList)) {
             BoolQueryBuilder orTagBoolQueryBuilder = QueryBuilders.boolQuery();
             for (String tag : orTagList) {
-                orTagBoolQueryBuilder.should(QueryBuilders.termQuery("tags", tag));
+                orTagBoolQueryBuilder.should(QueryBuilders.termQuery("tag", tag));
             }
             orTagBoolQueryBuilder.minimumShouldMatch(1);
             boolQueryBuilder.filter(orTagBoolQueryBuilder);

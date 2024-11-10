@@ -33,6 +33,11 @@ public class UserRegisterRequest implements Serializable {
     private String userPhone;
 
     /**
+     * 验证码
+     */
+    private String verityCode;
+
+    /**
      * 用户邮箱
      */
     private String userMail;

@@ -57,9 +57,9 @@ public class PostController {
         }
         Post post = new Post();
         BeanUtils.copyProperties(postAddRequest, post);
-        List<String> tags = postAddRequest.getTag();
-        if (tags != null) {
-            post.setTag(JSONUtil.toJsonStr(tags));
+        List<String> tag = postAddRequest.getTag();
+        if (tag != null) {
+            post.setTag(JSONUtil.toJsonStr(tag));
         }
         postService.validPost(post, true);
         User loginUser = userService.getLoginUser(request);
@@ -109,9 +109,9 @@ public class PostController {
         }
         Post post = new Post();
         BeanUtils.copyProperties(postUpdateRequest, post);
-        List<String> tags = postUpdateRequest.getTags();
-        if (tags != null) {
-            post.setTag(JSONUtil.toJsonStr(tags));
+        List<String> tag = postUpdateRequest.getTag();
+        if (tag != null) {
+            post.setTag(JSONUtil.toJsonStr(tag));
         }
         // 参数校验
         postService.validPost(post, false);
@@ -233,9 +233,9 @@ public class PostController {
         }
         Post post = new Post();
         BeanUtils.copyProperties(postEditRequest, post);
-        List<String> tags = postEditRequest.getTag();
-        if (tags != null) {
-            post.setTag(JSONUtil.toJsonStr(tags));
+        List<String> tag = postEditRequest.getTag();
+        if (tag != null) {
+            post.setTag(JSONUtil.toJsonStr(tag));
         }
         // 参数校验
         postService.validPost(post, false);

@@ -61,10 +61,13 @@ public class UserController {
         String userAccount = userRegisterRequest.getUserAccount();
         String userPassword = userRegisterRequest.getUserPassword();
         String checkPassword = userRegisterRequest.getCheckPassword();
-        if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword)) {
+        String userPhone = userRegisterRequest.getUserPhone();
+        String userMail = userRegisterRequest.getUserMail();
+        String verityCode = userRegisterRequest.getVerityCode();
+        if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword, userPhone, verityCode)) {
             return null;
         }
-        long result = userService.userRegister(userAccount, userPassword, checkPassword);
+        long result = userService.userRegister(userAccount, userPassword, checkPassword, userPhone, userMail, verityCode);
         return ResultUtils.success(result);
     }
 
@@ -85,7 +88,7 @@ public class UserController {
         if (StringUtils.isAnyBlank(userAccount, userPassword)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        LoginUserVO loginUserVO = userService.userLogin(userAccount, userPassword, request);
+        LoginUserVO loginUserVO = userService.userLoginWithAccount(userAccount, userPassword, request);
         return ResultUtils.success(loginUserVO);
     }
 

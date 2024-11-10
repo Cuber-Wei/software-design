@@ -107,7 +107,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         queryWrapper.like(StringUtils.isNotBlank(answer), "answer", answer);
         if (CollUtil.isNotEmpty(tags)) {
             for (String tag : tags) {
-                queryWrapper.like("tags", "\"" + tag + "\"");
+                queryWrapper.like("tag", "\"" + tag + "\"");
             }
         }
         queryWrapper.eq(ObjectUtils.isNotEmpty(id), "id", id);

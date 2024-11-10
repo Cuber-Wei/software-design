@@ -24,17 +24,27 @@ public interface UserService extends IService<User> {
      * @param checkPassword 校验密码
      * @return 新用户 id
      */
-    long userRegister(String userAccount, String userPassword, String checkPassword);
+    long userRegister(String userAccount, String userPassword, String checkPassword, String userPhone, String userMail, String verityCode);
 
     /**
-     * 用户登录
+     * 用户账号登录
      *
      * @param userAccount  用户账户
      * @param userPassword 用户密码
      * @param request
      * @return 脱敏后的用户信息
      */
-    LoginUserVO userLogin(String userAccount, String userPassword, HttpServletRequest request);
+    LoginUserVO userLoginWithAccount(String userAccount, String userPassword, HttpServletRequest request);
+
+    /**
+     * 用户验证码登录
+     *
+     * @param userAccount  用户账户
+     * @param userPassword 用户密码
+     * @param request
+     * @return 脱敏后的用户信息
+     */
+    LoginUserVO userLoginWithVerity(String userAccount, String userPassword, HttpServletRequest request);
 
     /**
      * 用户登录（微信开放平台）

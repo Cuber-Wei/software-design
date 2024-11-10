@@ -65,9 +65,9 @@ wx:
   # todo 需替换配置
   mp:
     token: L0v3ch4n
-    aesKey: gEVoQwyUc9VSP9Kxo1N3dSnUCDAzAXwSwgyiXqtbzHz
-    appId: wxdf3c13359859ef7d
-    secret: 5eb023b116cbebba59e640d125661521
+    aesKey:
+    appId:
+    secret:
     config-storage:
       http-client-type: HttpClient
       key-prefix: wx
