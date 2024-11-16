@@ -38,7 +38,7 @@
         <a-input-password
           v-model="form.userPassword"
           allow-clear
-          placeholder="请输入密码"
+          placeholder="请输入密码，长度应不小于8"
         >
           <template #prefix>
             <IconLock />
@@ -212,7 +212,7 @@ const rules = {
   ],
   userMail: [
     {
-      type: "userMail",
+      type: "email",
       required: true,
       message: "请输入邮箱！",
     },

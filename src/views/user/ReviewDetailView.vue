@@ -1,35 +1,33 @@
 <template>
-  <div id="reviewDetailView">
-    <a-space id="reviewDetailView">
-      <h2 style="margin-bottom: 32px">详情</h2>
-      <a-form label-align="right" @submit="handleSubmit">
-        <a-form-item field="id" label="ID">
-          <a-input class="formItem" :placeholder="post?.postId" disabled />
-        </a-form-item>
-        <a-form-item field="title" label="标题">
-          <a-input class="formItem" :placeholder="post?.title" />
-        </a-form-item>
-        <a-form-item field="content" label="内容">
-          <MdViewer :value="post?.content" class="formItem" />
-        </a-form-item>
-        <a-form-item>
-          <a-button
-            html-type="submit"
-            style="width: 150px; margin: 0 auto"
-            type="primary"
-            @click="doSubmit"
-            >审核通过
-          </a-button>
-          <a-button
-            html-type="submit"
-            style="width: 150px; margin: 0 auto"
-            type="primary"
-            @click="doSubmit"
-            >退回
-          </a-button>
-        </a-form-item>
-      </a-form>
-    </a-space>
+  <div class="reviewDetailView">
+    <h2 style="margin-bottom: 32px">详情</h2>
+    <a-form label-align="right" @submit="handleSubmit">
+      <a-form-item field="id" label="ID">
+        <a-input class="formItem" :placeholder="post?.postId" disabled />
+      </a-form-item>
+      <a-form-item field="title" label="标题">
+        <a-input class="formItem" :placeholder="post?.title" />
+      </a-form-item>
+      <a-form-item field="content" label="内容">
+        <MdViewer :value="post?.content" class="formItem" />
+      </a-form-item>
+      <a-form-item>
+        <a-button
+          html-type="submit"
+          style="width: 150px; margin: 0 auto"
+          type="primary"
+          @click="doSubmit"
+          >审核通过
+        </a-button>
+        <a-button
+          html-type="submit"
+          style="width: 150px; margin: 0 auto"
+          type="primary"
+          @click="doSubmit"
+          >退回
+        </a-button>
+      </a-form-item>
+    </a-form>
   </div>
 </template>
 <script lang="ts" setup>
@@ -58,14 +56,14 @@ onMounted(() => {
 });
 </script>
 <style scoped>
-#reviewDetailView {
+.reviewDetailView {
   margin: 0 auto;
   width: 90%;
   display: flex;
   flex-direction: column;
 }
 
-#reviewDetailView .formItem {
+.formItem {
   width: 100%;
 }
 </style>

@@ -60,11 +60,21 @@
         </a-menu>
       </div>
     </a-col>
-    <a-col flex="100px">
-      <a-dropdown @select="handleSelect">
-        <a-button
-          >{{ store.state.user?.loginUser?.userName ?? "未登录" }}
-        </a-button>
+    <a-col flex="250px">
+      <a-link href="/user/register" style="margin-right: 32px">注册账号</a-link>
+      <a-dropdown :trigger="'hover'">
+        <a-avatar
+          :style="{
+            backgroundColor:
+              showName === '未登录'
+                ? '#c9cdd4'
+                : showName === 'admin'
+                ? '#00d0b6'
+                : '#14a9f8',
+          }"
+        >
+          {{ showName }}
+        </a-avatar>
         <template #content>
           <a-doption v-if="showName === '未登录'" @click="toLogin"
             >登录
