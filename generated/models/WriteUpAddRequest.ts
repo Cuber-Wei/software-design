@@ -3,8 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type WriteUpAddRequest = {
-    content?: string;
-    tag?: Array<string>;
-    title?: string;
+  content?: string;
+  tag?: Array<string>;
+  title?: string;
 };
-

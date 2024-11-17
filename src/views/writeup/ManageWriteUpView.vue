@@ -57,8 +57,6 @@ import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
 import moment from "moment";
 
-const show = ref(true);
-
 const dataList = ref([]);
 const total = ref(0);
 const searchParams = ref({

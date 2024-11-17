@@ -3,10 +3,10 @@
     <h2 style="margin-bottom: 32px">详情</h2>
     <a-form label-align="right" @submit="handleSubmit">
       <a-form-item field="id" label="ID">
-        <a-input class="formItem" :placeholder="post?.postId" disabled />
+        <a-input :placeholder="post?.postId" class="formItem" disabled />
       </a-form-item>
       <a-form-item field="title" label="标题">
-        <a-input class="formItem" :placeholder="post?.title" />
+        <a-input :placeholder="post?.title" class="formItem" />
       </a-form-item>
       <a-form-item field="content" label="内容">
         <MdViewer :value="post?.content" class="formItem" />
@@ -43,7 +43,7 @@ const loadData = async () => {
   const route = useRoute();
   // 获取router的参数
   const id = route.params.id as string;
-  const res = await PostControllerService.getPostVoByIdUsingGet(id as string);
+  const res = await PostControllerService.getPostVoByIdUsingGet(id as any);
   if (res.code === 0) {
     post.value = res.data;
     console.log(post.value);

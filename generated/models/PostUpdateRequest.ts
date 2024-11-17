@@ -3,9 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export type PostUpdateRequest = {
-    content?: string;
-    postId?: number;
-    tag?: Array<string>;
-    title?: string;
+  content?: string;
+  postId?: number;
+  tag?: Array<string>;
+  title?: string;
 };
-

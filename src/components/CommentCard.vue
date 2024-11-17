@@ -8,8 +8,16 @@
       </a-col>
       <a-col :span="16">
         <div class="info">评论作者：{{ props.post.user?.userName }}</div>
-        <div class="info">评论时间：{{ props.post?.createTime }}</div>
-        <div class="info">发布时间：{{ props.post?.updateTime }}</div>
+        <div class="info">
+          评论时间：{{
+            moment(props.post?.createTime).format("YYYY-MM-DD hh:mm")
+          }}
+        </div>
+        <div class="info">
+          发布时间：{{
+            moment(props.post?.updateTime).format("YYYY-MM-DD hh:mm")
+          }}
+        </div>
       </a-col>
     </a-row>
     <Viewer :plugins="plugins" :value="props.post?.content" />
@@ -22,6 +30,7 @@ import { PostVO } from "../../generated";
 import gfm from "@bytemd/plugin-gfm";
 import highlight from "@bytemd/plugin-highlight-ssr";
 import math from "@bytemd/plugin-math-ssr";
+import moment from "moment/moment";
 
 /**
  定义组件属性类型
