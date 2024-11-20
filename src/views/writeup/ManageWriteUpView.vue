@@ -1,5 +1,5 @@
 <template>
-  <div id="ManageWriteUpView">
+  <div class="ManageWriteUpView">
     <h1>管理题解</h1>
     <a-table
       :columns="columns"
@@ -147,7 +147,7 @@ const onPageChange = (page: number) => {
 };
 </script>
 <style scoped>
-#ManageWriteUpView {
+.ManageWriteUpView {
   margin: 0 auto;
   width: 90%;
   display: flex;

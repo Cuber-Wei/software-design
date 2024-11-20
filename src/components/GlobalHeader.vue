@@ -163,8 +163,7 @@ const userId = computed(() => {
   return store.state.user?.loginUser?.userId ?? -1;
 });
 const toLogin = () => {
-  const name = showName;
-  if (name == "未登录") {
+  if (showName.value === "未登录") {
     router.push({ path: "/user/login", replace: true });
   }
 };
