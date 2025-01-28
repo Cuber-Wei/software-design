@@ -2,8 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type {OrderItem} from "./OrderItem";
-import type {QuestionSubmitVO} from "./QuestionSubmitVO";
+import type { OrderItem } from "./OrderItem";
+import type { QuestionSubmitVO } from "./QuestionSubmitVO";
 
 export type Page_QuestionSubmitVO_ = {
   countId?: string;

@@ -2,18 +2,18 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type {BaseResponse_boolean_} from "../models/BaseResponse_boolean_";
-import type {BaseResponse_long_} from "../models/BaseResponse_long_";
-import type {BaseResponse_Page_WriteUp_} from "../models/BaseResponse_Page_WriteUp_";
-import type {BaseResponse_Page_WriteUpVO_} from "../models/BaseResponse_Page_WriteUpVO_";
-import type {BaseResponse_WriteUpVO_} from "../models/BaseResponse_WriteUpVO_";
-import type {DeleteRequest} from "../models/DeleteRequest";
-import type {WriteUpAddRequest} from "../models/WriteUpAddRequest";
-import type {WriteUpQueryRequest} from "../models/WriteUpQueryRequest";
-import type {WriteUpUpdateRequest} from "../models/WriteUpUpdateRequest";
-import type {CancelablePromise} from "../core/CancelablePromise";
-import {OpenAPI} from "../core/OpenAPI";
-import {request as __request} from "../core/request";
+import type { BaseResponse_boolean_ } from "../models/BaseResponse_boolean_";
+import type { BaseResponse_long_ } from "../models/BaseResponse_long_";
+import type { BaseResponse_Page_WriteUp_ } from "../models/BaseResponse_Page_WriteUp_";
+import type { BaseResponse_Page_WriteUpVO_ } from "../models/BaseResponse_Page_WriteUpVO_";
+import type { BaseResponse_WriteUpVO_ } from "../models/BaseResponse_WriteUpVO_";
+import type { DeleteRequest } from "../models/DeleteRequest";
+import type { WriteUpAddRequest } from "../models/WriteUpAddRequest";
+import type { WriteUpQueryRequest } from "../models/WriteUpQueryRequest";
+import type { WriteUpUpdateRequest } from "../models/WriteUpUpdateRequest";
+import type { CancelablePromise } from "../core/CancelablePromise";
+import { OpenAPI } from "../core/OpenAPI";
+import { request as __request } from "../core/request";
 
 export class WriteUpControllerService {
   /**

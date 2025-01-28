@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type {UserVO} from "./UserVO";
+import type { UserVO } from "./UserVO";
 
 export type WriteUpVO = {
   content?: string;
