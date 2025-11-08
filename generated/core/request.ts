@@ -11,12 +11,12 @@ import type {
 import axios from "axios";
 import FormData from "form-data";
 
-import { ApiError } from "./ApiError";
-import type { ApiRequestOptions } from "./ApiRequestOptions";
-import type { ApiResult } from "./ApiResult";
-import type { OnCancel } from "./CancelablePromise";
-import { CancelablePromise } from "./CancelablePromise";
-import type { OpenAPIConfig } from "./OpenAPI";
+import {ApiError} from "./ApiError";
+import type {ApiRequestOptions} from "./ApiRequestOptions";
+import type {ApiResult} from "./ApiResult";
+import type {OnCancel} from "./CancelablePromise";
+import {CancelablePromise} from "./CancelablePromise";
+import type {OpenAPIConfig} from "./OpenAPI";
 
 export const isDefined = <T>(
   value: T | null | undefined

@@ -79,6 +79,7 @@
                   size="small"
                   style="width: 200px"
                 />
+                <a-button type="primary" @click="loadData">刷新</a-button>
               </a-space>
               <a-divider :size="0"></a-divider>
               <a-table

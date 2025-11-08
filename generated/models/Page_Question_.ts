@@ -2,8 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { OrderItem } from "./OrderItem";
-import type { Question } from "./Question";
+import type {OrderItem} from "./OrderItem";
+import type {Question} from "./Question";
 
 export type Page_Question_ = {
   countId?: string;

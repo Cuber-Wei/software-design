@@ -2,8 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { OrderItem } from "./OrderItem";
-import type { WriteUpVO } from "./WriteUpVO";
+import type {OrderItem} from "./OrderItem";
+import type {WriteUpVO} from "./WriteUpVO";
 
 export type Page_WriteUpVO_ = {
   countId?: string;

@@ -57,8 +57,8 @@
         <a-space>
           {{
             `${
-              record.submitNum ? record.acceptedNum / record.submitNum : "0"
-            }%  (${record.acceptedNum} / ${record.submitNum})`
+              record.submitNum ?? 0 ? record.acceptedNum / record.submitNum : 0
+            }%  (${record.acceptedNum ?? 0} / ${record.submitNum ?? 0})`
           }}
         </a-space>
       </template>

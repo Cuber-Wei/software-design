@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { QuestionSubmitVO } from "./QuestionSubmitVO";
+import type {QuestionSubmitVO} from "./QuestionSubmitVO";
 
 export type BaseResponse_QuestionSubmitVO_ = {
   code?: number;

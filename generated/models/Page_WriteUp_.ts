@@ -2,8 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { OrderItem } from "./OrderItem";
-import type { WriteUp } from "./WriteUp";
+import type {OrderItem} from "./OrderItem";
+import type {WriteUp} from "./WriteUp";
 
 export type Page_WriteUp_ = {
   countId?: string;
